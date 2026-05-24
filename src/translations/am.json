@@ -42,7 +42,7 @@
     "alternatives": "አማራጭ ቦታዎች",
     "useRecommended": "የሚመከረውን ተጠቀም",
     "chooseOnMap": "በካርታ ምረጥ",
-    "invalidQR": "ልክ ያልሆነ QR ኮድ። የማሳያ ቶከን ይሞክሩ።",
+    "invalidQR": "ልክ ያልሆነ QR ኮድ። በመግቢያ በቅር መደበኛውን QR ይስካኑ።",
     "noSpots": "ነፃ ቦታ የለም።",
     "reasonPreferred": "በተመረጠው ወለል ላይ",
     "reasonNearest": "በጣም ቅርብ ነፃ ቦታ",
@@ -56,13 +56,17 @@
   "exit": {
     "title": "የመውጫ QR ስካን",
     "simulateScan": "መውጫ ስካን አስመስል",
-    "invalidQR": "ልክ ያልሆነ የመውጫ QR ኮድ። የማሳያ ቶከን ይሞክሩ።",
+    "invalidQR": "ልክ ያልሆነ QR ኮድ። በመውጫ በቅር መደበኛውን QR ይስካኑ።",
     "noSession": "ንቁ የፓርኪንግ ክፍለ ጊዜ የለም።",
     "goToEntry": "ፓርኪንግ ጀምር"
   },
   "map": {
     "title": "የፓርኪንግ ካርታ",
     "navigateTitle": "ቀጥታ ዳሰሳ",
+    "selectTitle": "ቦታዎን ይምረጡ",
+    "confirmSpot": "{spot} ተጠቀም",
+    "spotUnavailable": "የዚያ ቦታ አሁን አይገኝም።",
+    "spotConfirmed": "{spot} ተመርጧል — መንገዱን ይከተሉ",
     "floor": "ወለል",
     "legendFree": "ነፃ",
     "legendOccupied": "የተያዘ",

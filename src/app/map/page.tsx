@@ -3,10 +3,13 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
+import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { useParkingStore } from "@/store/useParkingStore";
 import { useSessionStore } from "@/store/useSessionStore";
 import { useNavigationStore } from "@/store/useNavigationStore";
+import { useReservationStore } from "@/store/useReservationStore";
+import { canClaimSpot, isReservationActive } from "@/services/reservationService";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { NavigationPanel } from "@/features/parking/NavigationPanel";
@@ -35,9 +38,12 @@ function MapContent() {
   const changeSpot = useSessionStore((s) => s.changeSpot);
   const freeSpot = useParkingStore((s) => s.freeSpot);
   const startNavigation = useNavigationStore((s) => s.startNavigation);
+  const anchorAtEntrance = useNavigationStore((s) => s.anchorAtEntrance);
   const targetSpotId = useNavigationStore((s) => s.targetSpotId);
   const isVisible = useNavigationStore((s) => s.isVisible);
   const userFloor = useNavigationStore((s) => s.userFloor);
+  const activeReservation = useReservationStore((s) => s.activeReservation);
+  const clearReservation = useReservationStore((s) => s.clearReservation);
 
   const floorParam = searchParams.get("floor");
   const [floor, setFloor] = useState(() => {
@@ -50,6 +56,12 @@ function MapContent() {
   const navInitialized = useRef(false);
 
   useEffect(() => {
+    if (selectMode && !navigateMode) {
+      anchorAtEntrance();
+    }
+  }, [selectMode, navigateMode, anchorAtEntrance]);
+
+  useEffect(() => {
     if (!navigateMode || !activeSession || navInitialized.current) return;
     const spot = spots.find((s) => s.id === activeSession.spotId);
     if (!spot) return;
@@ -60,30 +72,45 @@ function MapContent() {
 
   const handleSelect = (spotId: string) => {
     setSelectedSpot(spotId);
+    const spot = spots.find((s) => s.id === spotId);
+    if (spot && spot.floor !== floor) {
+      setFloor(spot.floor);
+      setCurrentFloor(spot.floor);
+    }
   };
 
   const confirmSpot = () => {
     if (!selectedSpotId) return;
     const spot = spots.find((s) => s.id === selectedSpotId);
-    if (!spot || spot.status !== "free") return;
+    const reservation =
+      activeReservation && isReservationActive(activeReservation) ? activeReservation : null;
+
+    if (!canClaimSpot(spot, reservation)) {
+      toast.error(t("spotUnavailable"));
+      return;
+    }
 
     if (selectMode || !activeSession) {
-      occupySpot(spot.id);
-      startSession(spot.id, spot.name, spot.floor);
-      startNavigation(spot.id, spot.name, spot.x, spot.y, spot.floor);
+      occupySpot(spot!.id);
+      clearReservation();
+      startSession(spot!.id, spot!.name, spot!.floor);
+      startNavigation(spot!.id, spot!.name, spot!.x, spot!.y, spot!.floor);
+      toast.success(t("spotConfirmed", { spot: spot!.name }));
       router.push("/map?navigate=1");
     } else if (activeSession) {
       freeSpot(activeSession.spotId);
-      occupySpot(spot.id);
-      changeSpot(spot.id, spot.name, spot.floor);
-      startNavigation(spot.id, spot.name, spot.x, spot.y, spot.floor);
+      occupySpot(spot!.id);
+      changeSpot(spot!.id, spot!.name, spot!.floor);
+      startNavigation(spot!.id, spot!.name, spot!.x, spot!.y, spot!.floor);
       router.push("/map?navigate=1");
     }
   };
 
   const floors = [...new Set(spots.map((s) => s.floor))].sort();
   const routeSpotId = targetSpotId ?? selectedSpotId;
-  const showRoute = !!routeSpotId && (navigateMode || !!selectedSpotId);
+  const showRoute = !!routeSpotId && (navigateMode || selectMode || !!selectedSpotId);
+  const selectedSpot = selectedSpotId ? spots.find((s) => s.id === selectedSpotId) : null;
+  const showConfirm = !!selectedSpotId && (selectMode || !navigateMode);
 
   const handleViewFloorChange = (f: number) => {
     setFloor(f);
@@ -94,7 +121,7 @@ function MapContent() {
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-bold">
-          {navigateMode ? t("navigateTitle") : t("title")}
+          {navigateMode ? t("navigateTitle") : selectMode ? t("selectTitle") : t("title")}
         </h1>
         <div className="flex gap-2" role="tablist" aria-label={t("floor")}>
           {floors.map((f) => (
@@ -141,9 +168,11 @@ function MapContent() {
         <NavigationPanel viewFloor={floor} onViewFloorChange={handleViewFloorChange} />
       ) : null}
 
-      {selectedSpotId && !navigateMode ? (
+      {showConfirm ? (
         <Button size="lg" className="w-full" onClick={confirmSpot}>
-          {t("navigate")} — {selectedSpotId}
+          {selectMode
+            ? t("confirmSpot", { spot: selectedSpot?.name ?? selectedSpotId })
+            : `${t("navigate")} — ${selectedSpot?.name ?? selectedSpotId}`}
         </Button>
       ) : null}
     </div>

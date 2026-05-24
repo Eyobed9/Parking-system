@@ -128,7 +128,7 @@ export default function ScanEntryPage() {
             <SpotRecommendationCard
               recommendation={recommendation}
               onAccept={() => startWithSpot(recommendation.recommended.id)}
-              onChooseMap={() => router.push("/map?mode=select&navigate=1")}
+              onChooseMap={() => router.push("/map?mode=select")}
               onSelectAlternative={(id) => {
                 const alt = recommendation.alternatives.find((s) => s.id === id);
                 if (alt) startWithSpot(alt.id);

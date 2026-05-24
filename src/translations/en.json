@@ -42,7 +42,7 @@
     "alternatives": "Alternative Spots",
     "useRecommended": "Use Recommended",
     "chooseOnMap": "Choose on Map",
-    "invalidQR": "Invalid QR code. Try the demo token.",
+    "invalidQR": "Invalid QR code. Please scan the entrance QR at the parking gate.",
     "noSpots": "No free spots available.",
     "reasonPreferred": "On your preferred floor",
     "reasonNearest": "Nearest available spot",
@@ -56,13 +56,17 @@
   "exit": {
     "title": "Scan Exit QR",
     "simulateScan": "Simulate Exit Scan",
-    "invalidQR": "Invalid exit QR code. Try the demo token.",
+    "invalidQR": "Invalid QR code. Please scan the exit QR at the parking gate.",
     "noSession": "No active parking session.",
     "goToEntry": "Start Parking"
   },
   "map": {
     "title": "Parking Map",
     "navigateTitle": "Live Navigation",
+    "selectTitle": "Choose your spot",
+    "confirmSpot": "Use {spot}",
+    "spotUnavailable": "That spot is no longer available.",
+    "spotConfirmed": "{spot} selected — follow the route",
     "floor": "Floor",
     "legendFree": "Free",
     "legendOccupied": "Occupied",
