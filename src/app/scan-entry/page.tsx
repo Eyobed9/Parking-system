@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
@@ -29,20 +29,24 @@ export default function ScanEntryPage() {
   const startSession = useSessionStore((s) => s.startSession);
   const [scanned, setScanned] = useState(false);
 
-  const handleScan = async (text: string) => {
-    const token = await validateQRToken(text);
-    if (!token || token.type !== "entry") {
-      toast.error(t("invalidQR"));
-      return;
-    }
-    const reco = getRecommendations(spots, preferredFloor);
-    if (!reco) {
-      toast.error(t("noSpots"));
-      return;
-    }
-    setRecommendation(reco);
-    setScanned(true);
-  };
+  const handleScan = useCallback(
+    async (text: string): Promise<boolean> => {
+      const token = await validateQRToken(text);
+      if (!token || token.type !== "entry") {
+        toast.error(t("invalidQR"));
+        return false;
+      }
+      const reco = getRecommendations(spots, preferredFloor);
+      if (!reco) {
+        toast.error(t("noSpots"));
+        return false;
+      }
+      setRecommendation(reco);
+      setScanned(true);
+      return true;
+    },
+    [spots, preferredFloor, setRecommendation, t]
+  );
 
   const startWithSpot = (spotId: string) => {
     const spot = spots.find((s) => s.id === spotId);
@@ -77,6 +81,7 @@ export default function ScanEntryPage() {
         onScan={handleScan}
         simulateLabel={t("simulateScan")}
         simulateToken={QR_TOKENS.ENTRY}
+        invalidMessage={t("invalidQR")}
       />
     </div>
   );

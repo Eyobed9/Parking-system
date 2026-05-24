@@ -33,6 +33,9 @@
   "entry": {
     "title": "የመግቢያ QR ስካን",
     "scanQR": "QR ስካን",
+    "scanAgain": "እንደገና ስካን",
+    "scannedValue": "ካሜራ አነበበው: \"{value}\"",
+    "cameraError": "ካሜራ ሊከፈት አልቻለም። ፈቃድ ይፈትሹ ወይም ማሳያ ስካን ይጠቀሙ።",
     "simulateScan": "መግቢያ ስካን አስመስል",
     "recommended": "የሚመከር ቦታ",
     "alternatives": "አማራጭ ቦታዎች",
@@ -47,6 +50,7 @@
   "exit": {
     "title": "የመውጫ QR ስካን",
     "simulateScan": "መውጫ ስካን አስመስል",
+    "invalidQR": "ልክ ያልሆነ የመውጫ QR ኮድ። የማሳያ ቶከን ይሞክሩ።",
     "noSession": "ንቁ የፓርኪንግ ክፍለ ጊዜ የለም።",
     "goToEntry": "ፓርኪንግ ጀምር"
   },

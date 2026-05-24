@@ -127,6 +127,23 @@ Add strings to `src/translations/en.json` and `src/translations/am.json`. Use `u
 | Entry QR token | `entry-demo` | `src/lib/constants.ts` |
 | Exit QR token | `exit-demo` | `src/lib/constants.ts` |
 
+## Creating entry/exit QR codes
+
+1. Use any QR generator and choose **Text** (plain text), not URL/Wi‑Fi/contact unless you encode only the token in the URL path.
+2. **Entrance QR** content: `entry-demo` (scan on `/scan-entry`).
+3. **Exit QR** content: `exit-demo` (scan on `/scan-exit`).
+4. Use a normal ASCII hyphen (`-`), not a long dash from Word.
+5. The app normalizes scans (trim, case, URL paths like `https://example.com/entry-demo` also work).
+
+**Ready-made codes in this repo** (open or print from your dev server):
+
+- [http://localhost:3000/qr/entry-demo.png](http://localhost:3000/qr/entry-demo.png)
+- [http://localhost:3000/qr/exit-demo.png](http://localhost:3000/qr/exit-demo.png)
+
+If scan fails, the app shows **Camera read: "..."** so you can see what the camera decoded.
+
+**Important:** Your exit sign must encode `exit-demo`, not `entry-demo`. Scan each code on the matching page (entry → Scan Entry, exit → Scan Exit).
+
 ## Git hooks
 
 Husky runs `lint-staged` on pre-commit, which ESLint-fixes staged `*.ts` and `*.tsx` files.

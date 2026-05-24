@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
@@ -23,23 +24,27 @@ export default function ScanExitPage() {
   const endSession = useSessionStore((s) => s.endSession);
   const freeSpot = useParkingStore((s) => s.freeSpot);
 
-  const handleScan = async (text: string) => {
-    const token = await validateQRToken(text);
-    if (!token || token.type !== "exit") {
-      toast.error(t("noSession"));
-      return;
-    }
-    if (!activeSession) {
-      toast.error(t("noSession"));
-      return;
-    }
-    const ended = endSession();
-    if (ended) {
-      freeSpot(ended.spotId);
-      sessionStorage.setItem("endedSession", JSON.stringify(ended));
-      router.push(`/payment?sessionId=${ended.id}`);
-    }
-  };
+  const handleScan = useCallback(
+    async (text: string): Promise<boolean> => {
+      const token = await validateQRToken(text);
+      if (!token || token.type !== "exit") {
+        toast.error(t("invalidQR"));
+        return false;
+      }
+      if (!activeSession) {
+        toast.error(t("noSession"));
+        return false;
+      }
+      const ended = endSession();
+      if (ended) {
+        freeSpot(ended.spotId);
+        sessionStorage.setItem("endedSession", JSON.stringify(ended));
+        router.push(`/payment?sessionId=${ended.id}`);
+      }
+      return true;
+    },
+    [activeSession, endSession, freeSpot, router, t]
+  );
 
   if (!activeSession) {
     return (
@@ -63,6 +68,7 @@ export default function ScanExitPage() {
         onScan={handleScan}
         simulateLabel={t("simulateScan")}
         simulateToken={QR_TOKENS.EXIT}
+        invalidMessage={t("invalidQR")}
       />
     </div>
   );

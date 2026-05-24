@@ -33,6 +33,9 @@
   "entry": {
     "title": "Scan Entrance QR",
     "scanQR": "Scan QR",
+    "scanAgain": "Scan again",
+    "scannedValue": "Camera read: \"{value}\"",
+    "cameraError": "Could not open the camera. Check permissions or use simulate scan.",
     "simulateScan": "Simulate Entry Scan",
     "recommended": "Recommended Spot",
     "alternatives": "Alternative Spots",
@@ -47,6 +50,7 @@
   "exit": {
     "title": "Scan Exit QR",
     "simulateScan": "Simulate Exit Scan",
+    "invalidQR": "Invalid exit QR code. Try the demo token.",
     "noSession": "No active parking session.",
     "goToEntry": "Start Parking"
   },
