@@ -1,3 +1,4 @@
+
 # Smart Parking System
 
 A full-stack-style **smart parking demonstration** built with **Next.js 16**, **TypeScript**, and **Tailwind CSS v4**. The application simulates QR-based garage entry and exit, spot recommendations, multi-floor interactive maps, timed reservations, live navigation, session billing, and Ethiopian payment methods — with an **offline-first PWA** architecture powered by client-side state, services, and mock data (no external backend required for the demo).
