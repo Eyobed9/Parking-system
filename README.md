@@ -1,75 +1,84 @@
-# Smart Parking Demo App
+# Smart Parking System
 
-An offline-first smart parking demonstration built with **Next.js 16**, **TypeScript**, and **Tailwind CSS v4**. The app simulates QR-based entry/exit, spot recommendations, interactive parking maps, live timers, and Ethiopian payment methods — all powered by mock data with no backend required.
+A full-stack-style **smart parking demonstration** built with **Next.js 16**, **TypeScript**, and **Tailwind CSS v4**. The application simulates QR-based garage entry and exit, spot recommendations, multi-floor interactive maps, timed reservations, live navigation, session billing, and Ethiopian payment methods — with an **offline-first PWA** architecture powered by client-side state, services, and mock data (no external backend required for the demo).
 
-## Features
+---
 
-- **Dashboard** — Stats cards, availability chart, floor breakdown, active sessions
-- **QR entry/exit** — Camera scanner + simulate buttons for desktop demo
-- **Spot recommendation** — Nearest free spot with alternatives based on floor preference and exit proximity
-- **Interactive map** — React Flow floor map with zoom, spot selection, and route line to entrance
-- **Active session** — Live timer, running cost estimate, extend/change/end actions
-- **Payments** — Telebirr, CBE Birr, Chapa, Cash, Visa/Mastercard (simulated)
-- **i18n** — English and Amharic (`next-intl`)
-- **Theming** — Light/dark/system (`next-themes`)
-- **PWA / offline** — Serwist service worker, IndexedDB caches, payment queue sync
+## 🌐 Live Demo
 
-## Prerequisites
+- 🔗 **Production:** [https://parking-system-murex.vercel.app](https://parking-system-murex.vercel.app)
+- 📱 **PWA:** Install from the browser menu on the live site (HTTPS required)
 
-- **Node.js** 20+
-- **pnpm** 9+ (recommended)
+---
 
-## Setup
+## 🧰 Tech Stack
 
-```bash
-pnpm install
-pnpm dev
-```
+### 🖥️ Frontend
 
-Open [http://localhost:3000](http://localhost:3000).
+| Layer | Technology |
+|-------|------------|
+| Framework | [Next.js 16](https://nextjs.org/) (App Router) |
+| Language | [TypeScript](https://www.typescriptlang.org/) |
+| Styling | [Tailwind CSS v4](https://tailwindcss.com/) |
+| State | [Zustand](https://zustand.docs.pmnd.rs/) + `persist` |
+| i18n | [next-intl](https://next-intl.dev/) (English & Amharic) |
+| Theme | [next-themes](https://github.com/pacocoursey/next-themes) |
+| Charts | [Recharts](https://recharts.org/) |
+| Map | [@xyflow/react](https://reactflow.dev/) |
+| QR | [html5-qrcode](https://github.com/mebjas/html5-qrcode) |
+| PWA | [@serwist/next](https://serwist.pages.dev/) |
+| Offline storage | [idb](https://github.com/jakearchibald/idb) (IndexedDB) |
+| UI motion | [Framer Motion](https://www.framer.com/motion/) |
+| Git hooks | Husky + lint-staged |
 
-### Production build
+### 🗄️ Data layer (demo)
 
-```bash
-pnpm build
-pnpm start
-```
+This repository is a **frontend demo**: business logic lives in `src/services/`, state in Zustand stores, and persistence via **localStorage** + **IndexedDB**. There is no separate Django/Node API server in this project.
 
-## Demo walkthrough
+---
 
-1. **Home** (`/`) — Start parking or open dashboard
-2. **Scan entry** (`/scan-entry`) — Click **Simulate Entry Scan** (or scan QR with token `entry-demo`)
-3. **Recommendation** — Accept recommended spot or pick an alternative / map
-4. **Active session** (`/session`) — Watch timer and estimated cost; navigate via map
-5. **Scan exit** (`/scan-exit`) — **Simulate Exit Scan** (`exit-demo`)
-6. **Payment** (`/payment`) — Review breakdown, select method, pay
-7. **Receipt** (`/receipt`) — Printable confirmation
-
-## Scripts
-
-| Script | Description |
-|--------|-------------|
-| `pnpm dev` | Development server |
-| `pnpm build` | Production build |
-| `pnpm start` | Run production server |
-| `pnpm lint` | ESLint check |
-| `pnpm lint:fix` | ESLint with auto-fix |
-| `pnpm prepare` | Install Husky git hooks |
-
-## Architecture
+## 📂 Project Structure
 
 ```
-src/
-├── app/              # Next.js App Router pages
-├── components/       # Shared UI + layout + providers
-├── features/         # Domain UI (dashboard, parking, payment, qr)
-├── hooks/            # useParkingTimer, useOnlineStatus
-├── i18n/             # next-intl request config
-├── lib/              # Utils, constants, mock data, IndexedDB
-├── services/         # Business logic (pricing, QR, recommendations)
-├── store/            # Zustand stores (persisted)
-├── translations/     # en.json, am.json
-└── types/            # TypeScript interfaces
+parking-system/
+├── public/
+│   ├── icons/              # PWA icons & manifest assets
+│   ├── qr/                 # Demo entry/exit QR images
+│   └── manifest.json
+├── screenshots/            # README screenshots (see below)
+├── src/
+│   ├── app/                # Next.js App Router pages
+│   │   ├── dashboard/      # Stats, sessions, spots views
+│   │   ├── map/            # Interactive parking map & navigation
+│   │   ├── scan-entry/     # Entrance QR flow
+│   │   ├── scan-exit/      # Exit QR flow
+│   │   ├── session/        # Active parking session
+│   │   ├── reserve/        # Timed spot reservation
+│   │   ├── payment/        # Payment summary
+│   │   └── receipt/        # Printable receipt
+│   ├── components/
+│   │   ├── layout/         # Header, sidebar, bottom nav
+│   │   ├── providers/      # Theme, i18n, data init
+│   │   └── ui/             # Button, card, badge
+│   ├── features/
+│   │   ├── dashboard/      # Charts, stats, tables
+│   │   ├── parking/        # Map, timer, navigation
+│   │   ├── payment/        # Payment UI
+│   │   ├── qr/             # Scanner & recommendation cards
+│   │   └── reservation/    # Active reservation card
+│   ├── hooks/              # Timer, online status, compass steps
+│   ├── i18n/               # Locale request config
+│   ├── lib/                # Constants, mock data, IDB, navigation math
+│   ├── services/           # Pricing, QR, recommendations, sync
+│   ├── store/              # Zustand stores (persisted)
+│   ├── translations/       # en.json, am.json
+│   └── types/              # Shared TypeScript interfaces
+├── package.json
+├── next.config.ts
+├── postcss.config.mjs
+├── tsconfig.json
+├── eslint.config.mjs
+└── README.md
 ```
 
 ### Data flow
@@ -77,99 +86,233 @@ src/
 ```
 UI (features) → Zustand stores → services → mock data / IndexedDB
                      ↓
-              localStorage persist (sessions, spots)
+              localStorage persist (sessions, spots, reservations)
 ```
 
-### Offline behavior
+---
 
-| Feature | Offline support |
-|---------|-----------------|
-| Dashboard | Cached spot stats (Zustand persist) |
-| Map | Cached layout (IndexedDB) |
+## ⚙️ Installation & Setup
+
+### 🔧 Prerequisites
+
+- **Node.js** 20+
+- **pnpm** 9+ (recommended), or npm / yarn
+
+### 💻 Local development
+
+```bash
+git clone <your-repo-url>
+cd parking-system
+pnpm install
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### 🏗️ Production build
+
+```bash
+pnpm build
+pnpm start
+```
+
+For PWA testing, use the production build on **HTTPS** (or deploy to Vercel).
+
+---
+
+## 📜 Scripts
+
+| Script | Description |
+|--------|-------------|
+| `pnpm dev` | Start development server |
+| `pnpm build` | Create optimized production build |
+| `pnpm start` | Run production server |
+| `pnpm lint` | Run ESLint |
+| `pnpm lint:fix` | ESLint with auto-fix |
+| `pnpm prepare` | Install Husky git hooks |
+
+---
+
+## 🚀 Features
+
+- 🔐 **QR entry & exit** — Camera scanning with rear-camera preference; demo tokens `entry-demo` / `exit-demo`
+- 🅿️ **Spot recommendations** — Nearest free spot with alternatives (floor preference, exit proximity)
+- 🗺️ **Interactive map** — Per-floor React Flow map, zoom controls, route lines, multi-floor stairs navigation
+- ⏱️ **Active session** — Live timer and running cost (billing starts on arrival at spot)
+- 📅 **Reservations** — Hold a spot for 30 min / 1 hr / 2 hr / 4 hr; scan entry QR to start session
+- 💳 **Payments** — Telebirr, CBE Birr, Chapa, Cash, Card (simulated) with VAT & peak-hour pricing
+- 📊 **Dashboard** — Occupancy stats, availability chart, floor breakdown, session table
+- 🌍 **i18n** — English and Amharic
+- 🎨 **Theming** — Cream light theme, dark mode, system preference
+- 📴 **Offline-first PWA** — Serwist service worker, cached assets, queued payments when offline
+- ♿ **Accessibility** — Landmarks, ARIA labels, status not conveyed by color alone
+
+---
+
+## 🔑 Core Functionalities
+
+### 1. 👤 Parking session lifecycle
+
+- **Entry** — Scan entrance QR → verified animation → choose recommended spot, alternative, or map
+- **Navigation** — Walk route on map (step/compass demo); billing timer starts on arrival
+- **Exit** — Scan exit QR → payment summary → receipt
+- **Change spot** — Switch to another free spot from the map during an active session
+
+### 2. 🗺️ Map & multi-floor navigation
+
+- Three floors with 100 spots (mock data)
+- Floor tabs to view each level
+- Entry, exit, and stairs markers
+- Route from entrance → stairs → target floor → spot
+- **Take stairs to floor X** when changing levels
+
+### 3. 📅 Reservations
+
+- Reserve a free spot with a hold duration
+- Spot marked **reserved** until expiry or cancel
+- On arrival, scan **entry QR** to claim reserved spot and start session
+
+### 4. 📊 Dashboard & admin-style views
+
+- Real-time-style stats (client-side mock + persist)
+- Active sessions table
+- Per-spot status grid
+
+### 5. 💳 Pricing & payments
+
+- Hourly rate with peak-hour multiplier (8:00–10:00)
+- VAT and service fee in breakdown
+- Offline payment queue synced when back online
+
+---
+
+## 🧭 Demo walkthrough
+
+Try the live app: [https://parking-system-murex.vercel.app](https://parking-system-murex.vercel.app)
+
+| Step | Route | Action |
+|------|-------|--------|
+| 1 | `/` | Start parking or reserve a spot |
+| 2 | `/scan-entry` | Scan or use demo entry QR (`entry-demo`) |
+| 3 | Choose spot | Accept recommendation, pick alternative, or **Choose on Map** → **Use {spot}** |
+| 4 | `/map?navigate=1` | Follow route; use stairs for upper floors |
+| 5 | `/session` | View timer & cost; navigate or end parking |
+| 6 | `/scan-exit` | Scan exit QR (`exit-demo`) |
+| 7 | `/payment` → `/receipt` | Pay (simulated) and view receipt |
+
+### Demo QR codes
+
+| Gate | Plain-text token | Demo image (local dev) |
+|------|------------------|-------------------------|
+| Entry | `entry-demo` | `/qr/entry-demo.png` |
+| Exit | `exit-demo` | `/qr/exit-demo.png` |
+
+On production: `https://parking-system-murex.vercel.app/qr/entry-demo.png`
+
+**Tips:** Use **Text** mode in any QR generator (not URL/Wi‑Fi). If scan fails, the app shows **Camera read: "..."** for debugging.
+
+---
+
+## ⚙️ Configuration
+
+Edit `src/lib/constants.ts`:
+
+| Constant | Default | Description |
+|----------|---------|-------------|
+| `HOURLY_RATE_ETB` | 50 | Base hourly rate (ETB) |
+| `VAT_RATE` | 0.15 | VAT on subtotal |
+| `SERVICE_FEE_ETB` | 5 | Flat service fee |
+| `PEAK_HOURS` | 8–10 | Morning peak window |
+| `TOTAL_SPOTS` | 100 | Spots across 3 floors |
+| `QR_TOKENS.ENTRY` | `entry-demo` | Entrance token |
+| `QR_TOKENS.EXIT` | `exit-demo` | Exit token |
+
+---
+
+## 📴 Offline & PWA
+
+| Feature | Offline behavior |
+|---------|------------------|
+| Dashboard | Cached via Zustand persist |
+| Map layout | IndexedDB cache |
 | Active session / timer | Fully local |
-| QR validation | Cached tokens (IndexedDB) |
-| Payments | Queued in IndexedDB; synced on `online` |
+| QR validation | Cached tokens |
+| Payments | Queued in IndexedDB; sync on `online` |
 
-### PWA install
+**Install as PWA:** Open the [live demo](https://parking-system-murex.vercel.app) → browser menu → **Install app**.
 
-1. Run production build (`pnpm build && pnpm start`) or deploy to HTTPS
-2. In Chrome/Edge: **Install app** from the address bar menu
-3. Test offline: DevTools → Network → **Offline**, reload — cached routes and active session still work
+---
 
-## i18n
+## 📸 Screenshots
 
-Add strings to `src/translations/en.json` and `src/translations/am.json`. Use `useTranslations("namespace")` in client components. Toggle language via the header button (sets `locale` cookie).
+Screenshots captured from [parking-system-murex.vercel.app](https://parking-system-murex.vercel.app). Add or replace images under `screenshots/`.
 
-## Tech stack
+| Home | Dashboard |
+|------|-----------|
+| [![Home](./screenshots/home.png)](https://parking-system-murex.vercel.app/) | [![Dashboard](./screenshots/dashboard.png)](https://parking-system-murex.vercel.app/dashboard) |
 
-| Layer | Technology |
-|-------|------------|
-| Framework | Next.js 16 (App Router) |
-| Language | TypeScript |
-| Styling | Tailwind CSS v4 |
-| State | Zustand + persist |
-| i18n | next-intl |
-| Theme | next-themes |
-| Charts | Recharts |
-| Map | @xyflow/react |
-| QR | html5-qrcode |
-| PWA | @serwist/next |
-| Offline DB | idb (IndexedDB) |
-| Git hooks | Husky + lint-staged |
+| Scan entry | Parking map |
+|------------|-------------|
+| [![Scan entry](./screenshots/scan-entry.png)](https://parking-system-murex.vercel.app/scan-entry) | [![Map](./screenshots/map.png)](https://parking-system-murex.vercel.app/map) |
 
-## Configuration
+| Active session | Payment |
+|----------------|---------|
+| [![Session](./screenshots/session.png)](https://parking-system-murex.vercel.app/session) | [![Payment](./screenshots/payment.png)](https://parking-system-murex.vercel.app/payment) |
 
-| Constant | Default | File |
-|----------|---------|------|
-| Hourly rate | 50 ETB | `src/lib/constants.ts` |
-| VAT | 15% | `src/lib/constants.ts` |
-| Total spots | 100 (3 floors) | `src/lib/constants.ts` |
-| Entry QR token | `entry-demo` | `src/lib/constants.ts` |
-| Exit QR token | `exit-demo` | `src/lib/constants.ts` |
+| Reserve spot | Dark mode |
+|--------------|-----------|
+| [![Reserve](./screenshots/reserve.png)](https://parking-system-murex.vercel.app/reserve) | [![Dark mode](./screenshots/dark-mode.png)](https://parking-system-murex.vercel.app/) |
 
-## Creating entry/exit QR codes
+> **Note:** If images do not render locally, open the linked routes on the live demo or add PNG files to `screenshots/` (recommended size: 1280×720).
 
-1. Use any QR generator and choose **Text** (plain text), not URL/Wi‑Fi/contact unless you encode only the token in the URL path.
-2. **Entrance QR** content: `entry-demo` (scan on `/scan-entry`).
-3. **Exit QR** content: `exit-demo` (scan on `/scan-exit`).
-4. Use a normal ASCII hyphen (`-`), not a long dash from Word.
-5. The app normalizes scans (trim, case, URL paths like `https://example.com/entry-demo` also work).
+---
 
-**Ready-made codes in this repo** (open or print from your dev server):
+## 🧪 Testing
 
-- [http://localhost:3000/qr/entry-demo.png](http://localhost:3000/qr/entry-demo.png)
-- [http://localhost:3000/qr/exit-demo.png](http://localhost:3000/qr/exit-demo.png)
+```bash
+pnpm lint
+pnpm build
+```
 
-If scan fails, the app shows **Camera read: "..."** so you can see what the camera decoded.
+Automated unit/e2e tests are not included in this demo; manual testing via the [live deployment](https://parking-system-murex.vercel.app) is recommended.
 
-**Important:** Your exit sign must encode `exit-demo`, not `entry-demo`. Scan each code on the matching page (entry → Scan Entry, exit → Scan Exit).
+---
 
-## Git hooks
+## 🔮 Future improvements
 
-Husky runs `lint-staged` on pre-commit, which ESLint-fixes staged `*.ts` and `*.tsx` files.
+- Real backend API and database
+- IoT occupancy sensors and license plate recognition
+- Push notifications for reservation expiry
+- Multi-garage admin analytics
+- Live payment gateways (Telebirr, Chapa, etc.)
 
-## Accessibility
+---
 
-- Semantic landmarks (`header`, `main`, `nav`)
-- `aria-label` / `aria-current` on navigation and controls
-- Map spots expose status via `aria-label` and `aria-pressed`
-- Color + text labels for spot status (not color-only)
-- `lang` attribute follows selected locale
+## 🛡️ License
 
-## Performance
+Private demo project. All rights reserved unless otherwise specified.
 
-- `dynamic()` imports for Recharts, React Flow, and QR scanner
-- Route-level code splitting via App Router
-- `next/font` with `display: swap` for Geist + Noto Sans Ethiopic
+---
 
-## Future improvements
+## 👏 Contributing
 
-- Real backend and IoT sensors
-- License plate recognition
-- Push notifications and reservations
-- Multi-branch admin analytics
-- Real payment gateway integration
+Contributions are welcome. Fork the repository and open a pull request.
 
-## License
+```bash
+git clone <your-repo-url>
+cd parking-system
+git checkout -b feature/your-feature-name
+pnpm install
+pnpm lint
+# commit and push
+```
 
-Private demo project.
+---
+
+## 🙏 Acknowledgments
+
+- [Next.js](https://nextjs.org/)
+- [React Flow](https://reactflow.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Zustand](https://zustand.docs.pmnd.rs/)
+- [Serwist](https://serwist.pages.dev/)
