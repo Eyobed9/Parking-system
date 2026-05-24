@@ -57,8 +57,6 @@ export function ParkingMap({
   const isVisible = useNavigationStore((s) => s.isVisible);
   const position = useNavigationStore((s) => s.position);
   const heading = useNavigationStore((s) => s.heading);
-  const isOffRoute = useNavigationStore((s) => s.isOffRoute);
-  const routeAnchor = useNavigationStore((s) => s.routeAnchor);
   const userFloor = useNavigationStore((s) => s.userFloor);
   const targetFloor = useNavigationStore((s) => s.targetFloor);
   const targetSpotId = useNavigationStore((s) => s.targetSpotId);
@@ -146,33 +144,11 @@ export function ParkingMap({
           x: position.x - USER_MARKER_OFFSET,
           y: position.y - USER_MARKER_OFFSET,
         },
-        data: { heading, offRoute: isOffRoute },
+        data: { heading },
         draggable: false,
         selectable: false,
         zIndex: 50,
       });
-
-      if (isOffRoute && routeAnchor) {
-        navNodes.push({
-          id: "route-anchor",
-          type: "default",
-          position: {
-            x: routeAnchor.x - 4,
-            y: routeAnchor.y - 4,
-          },
-          data: { label: "" },
-          style: {
-            width: 8,
-            height: 8,
-            borderRadius: "50%",
-            background: "#f59e0b",
-            border: "2px solid #fff",
-          },
-          draggable: false,
-          selectable: false,
-          zIndex: 10,
-        });
-      }
     } else if ((isVisible || isTracking) && floor !== userFloor) {
       navNodes.push({
         id: "user-ghost",
@@ -181,7 +157,7 @@ export function ParkingMap({
           x: STAIRS_POSITION.x - USER_MARKER_OFFSET,
           y: STAIRS_POSITION.y - USER_MARKER_OFFSET,
         },
-        data: { heading, offRoute: false, ghost: true },
+        data: { heading, ghost: true },
         draggable: false,
         selectable: false,
         zIndex: 40,
@@ -205,8 +181,6 @@ export function ParkingMap({
     isVisible,
     position,
     heading,
-    isOffRoute,
-    routeAnchor,
     isTracking,
   ]);
 
@@ -271,17 +245,6 @@ export function ParkingMap({
       });
     }
 
-    if (isVisible && isOffRoute && routeAnchor && isUserFloorView) {
-      result.push({
-        id: "off-route",
-        source: "user-location",
-        target: "route-anchor",
-        type: "straight",
-        style: { stroke: "#f59e0b", strokeWidth: 2, strokeDasharray: "6 4" },
-        zIndex: 3,
-      });
-    }
-
     return result;
   }, [
     showRoute,
@@ -293,9 +256,6 @@ export function ParkingMap({
     userFloor,
     multiFloor,
     phase,
-    isVisible,
-    isOffRoute,
-    routeAnchor,
   ]);
 
   const onNodeClick = useCallback(

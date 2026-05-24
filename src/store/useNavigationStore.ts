@@ -9,6 +9,7 @@ import {
   STAIRS_POSITION,
 } from "@/lib/constants";
 import {
+  bearing,
   clampToBounds,
   headingToward,
   movePoint,
@@ -219,14 +220,15 @@ export const useNavigationStore = create<NavigationState>()((set, get) => ({
     const state = get();
     if (!state.isTracking) return;
 
-    const heading = headingDeg ?? state.heading;
+    const driveHeading = headingDeg ?? state.heading;
     const next = clampToBounds(
-      movePoint(state.position, heading, NAV_STEP_LENGTH),
+      movePoint(state.position, driveHeading, NAV_STEP_LENGTH),
       MAP_BOUNDS
     );
+    const displayHeading = bearing(state.position, next);
 
     set(
-      updateAfterMove(next, heading, {
+      updateAfterMove(next, displayHeading, {
         targetPosition: state.targetPosition,
         userFloor: state.userFloor,
         targetFloor: state.targetFloor,
@@ -245,9 +247,10 @@ export const useNavigationStore = create<NavigationState>()((set, get) => ({
       movePoint(state.position, backHeading, NAV_STEP_LENGTH),
       MAP_BOUNDS
     );
+    const displayHeading = bearing(state.position, next);
 
     set(
-      updateAfterMove(next, backHeading, {
+      updateAfterMove(next, displayHeading, {
         targetPosition: state.targetPosition,
         userFloor: state.userFloor,
         targetFloor: state.targetFloor,

@@ -30,6 +30,11 @@ export function bearing(from: Point, to: Point): number {
   return (Math.atan2(to.y - from.y, to.x - from.x) * 180) / Math.PI;
 }
 
+/** Map heading (0° = east/+x, 90° = south/+y) → CSS rotate for an icon pointing up at 0°. */
+export function mapHeadingToIconRotation(headingDeg: number): number {
+  return headingDeg + 90;
+}
+
 export function nearestPointOnPolyline(
   point: Point,
   polyline: Point[]
