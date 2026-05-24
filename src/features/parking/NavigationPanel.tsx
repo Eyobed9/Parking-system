@@ -1,6 +1,8 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { ArrowDown, ArrowUp, Layers, LocateFixed, Radio } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +13,7 @@ import {
 import { motionSupported, orientationSupported } from "@/lib/navigation/compass";
 import { needsMultiFloor, stairsTargetFloor } from "@/lib/navigation/multiFloorRoute";
 import { useNavigationStore } from "@/store/useNavigationStore";
+import { useSessionStore } from "@/store/useSessionStore";
 
 interface NavigationPanelProps {
   viewFloor: number;
@@ -31,8 +34,21 @@ export function NavigationPanel({ viewFloor, onViewFloorChange }: NavigationPane
   const stepBackward = useNavigationStore((s) => s.stepBackward);
   const resetToEntrance = useNavigationStore((s) => s.resetToEntrance);
   const advanceFloor = useNavigationStore((s) => s.advanceFloor);
+  const beginBillingAtSpot = useSessionStore((s) => s.beginBillingAtSpot);
+  const billingStarted = useRef(false);
 
   useStepCompassNavigation();
+
+  useEffect(() => {
+    if (!hasArrived) {
+      billingStarted.current = false;
+      return;
+    }
+    if (billingStarted.current) return;
+    billingStarted.current = true;
+    beginBillingAtSpot();
+    toast.success(t("billingStarted"));
+  }, [hasArrived, beginBillingAtSpot, t]);
 
   const sensorsAvailable = motionSupported() || orientationSupported();
   const multiFloor = needsMultiFloor(targetFloor);

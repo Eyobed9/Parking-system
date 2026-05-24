@@ -92,7 +92,8 @@
     "sensorsUnavailable": "Sensors unavailable on this device — use step buttons below.",
     "stepForward": "Forward",
     "stepBack": "Back",
-    "resetPosition": "Reset to entry"
+    "resetPosition": "Reset to entry",
+    "billingStarted": "You've arrived — parking timer started"
   },
   "session": {
     "title": "Active Parking",
@@ -107,7 +108,8 @@
     "endParking": "End Parking",
     "navigate": "Navigate",
     "noSession": "No active session. Scan entry QR to start.",
-    "extended": "Session extended by 30 minutes"
+    "extended": "Session extended by 30 minutes",
+    "timerWaiting": "Timer starts when you reach your spot. Use Navigate on the map."
   },
   "payment": {
     "title": "Parking Summary",

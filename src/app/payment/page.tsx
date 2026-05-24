@@ -39,7 +39,7 @@ function PaymentContent() {
   }
 
   const breakdown = calculatePrice(
-    session.startTime,
+    session.billingStartTime ?? session.startTime,
     session.endTime ?? new Date().toISOString(),
     session.extendedMinutes ?? 0
   );

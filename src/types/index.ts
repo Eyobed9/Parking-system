@@ -25,6 +25,8 @@ export interface ParkingSession {
   spotName: string;
   floor: number;
   startTime: string;
+  /** When set, parking duration and billing are counted from arrival at the spot */
+  billingStartTime?: string;
   endTime?: string;
   extendedMinutes?: number;
   totalPrice?: number;

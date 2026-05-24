@@ -33,7 +33,8 @@ export default function SessionPage() {
       <h1 className="text-2xl font-bold">{t("title")}</h1>
 
       <ParkingTimer
-        startTime={activeSession.startTime}
+        billingStartTime={activeSession.billingStartTime}
+        waitingForArrival={!activeSession.billingStartTime}
         extendedMinutes={activeSession.extendedMinutes}
         spotName={activeSession.spotName}
         floor={activeSession.floor}
@@ -45,6 +46,7 @@ export default function SessionPage() {
           started: t("started"),
           floor: t("floor"),
           sessionId: t("sessionId"),
+          waiting: t("timerWaiting"),
         }}
       />
 

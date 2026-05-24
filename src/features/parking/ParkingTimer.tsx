@@ -5,8 +5,10 @@ import { useParkingTimer } from "@/hooks/useParkingTimer";
 import { formatETB } from "@/lib/utils";
 
 interface Props {
-  startTime: string;
+  /** Billing / parking duration anchor — set when user reaches the spot */
+  billingStartTime?: string;
   extendedMinutes?: number;
+  waitingForArrival?: boolean;
   labels: {
     duration: string;
     currentCost: string;
@@ -14,6 +16,7 @@ interface Props {
     started: string;
     floor: string;
     sessionId: string;
+    waiting?: string;
   };
   spotName: string;
   floor: number;
@@ -21,14 +24,15 @@ interface Props {
 }
 
 export function ParkingTimer({
-  startTime,
+  billingStartTime,
   extendedMinutes = 0,
+  waitingForArrival = false,
   labels,
   spotName,
   floor,
   qrSessionId,
 }: Props) {
-  const { formatted, estimate } = useParkingTimer(startTime, extendedMinutes);
+  const { formatted, estimate } = useParkingTimer(billingStartTime, extendedMinutes);
 
   return (
     <Card>
@@ -36,8 +40,11 @@ export function ParkingTimer({
         <CardTitle>{labels.duration}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
+        {waitingForArrival ? (
+          <p className="text-sm text-muted-foreground">{labels.waiting}</p>
+        ) : null}
         <p className="font-mono text-4xl font-bold tracking-wider text-emerald-600 md:text-5xl">
-          {formatted}
+          {billingStartTime ? formatted : "00:00:00"}
         </p>
         <dl className="grid gap-2 text-sm sm:grid-cols-2">
           <div>
@@ -50,7 +57,11 @@ export function ParkingTimer({
           </div>
           <div>
             <dt className="text-muted-foreground">{labels.started}</dt>
-            <dd>{new Date(startTime).toLocaleString()}</dd>
+            <dd>
+              {billingStartTime
+                ? new Date(billingStartTime).toLocaleString()
+                : "—"}
+            </dd>
           </div>
           <div>
             <dt className="text-muted-foreground">{labels.sessionId}</dt>
@@ -58,7 +69,9 @@ export function ParkingTimer({
           </div>
           <div className="sm:col-span-2">
             <dt className="text-muted-foreground">{labels.currentCost}</dt>
-            <dd className="text-2xl font-bold text-emerald-600">{formatETB(estimate)}</dd>
+            <dd className="text-2xl font-bold text-emerald-600">
+              {billingStartTime ? formatETB(estimate) : formatETB(0)}
+            </dd>
           </div>
         </dl>
       </CardContent>

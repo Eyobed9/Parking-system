@@ -35,7 +35,8 @@ export const EXIT_POSITION = { x: 750, y: 400 };
 export const STAIRS_POSITION = { x: 400, y: 120 };
 
 export const MAP_BOUNDS = { minX: 20, maxX: 820, minY: 20, maxY: 480 };
-export const NAV_STEP_LENGTH = 12;
+/** Map units per step — higher = faster cross-map movement */
+export const NAV_STEP_LENGTH = 26;
 export const NAV_OFF_ROUTE_THRESHOLD = 45;
 export const NAV_ARRIVAL_THRESHOLD = 40;
 export const NAV_STAIRS_THRESHOLD = 35;

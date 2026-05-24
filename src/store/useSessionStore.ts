@@ -14,6 +14,7 @@ interface SessionState {
   initMockSessions: () => void;
   setRecommendation: (r: RecommendationResult | null) => void;
   startSession: (spotId: string, spotName: string, floor: number) => ParkingSession;
+  beginBillingAtSpot: () => void;
   endSession: () => ParkingSession | null;
   extendSession: () => void;
   changeSpot: (spotId: string, spotName: string, floor: number) => void;
@@ -41,6 +42,7 @@ export const useSessionStore = create<SessionState>()(
           spotName,
           floor,
           startTime: new Date().toISOString(),
+          billingStartTime: undefined,
           paymentStatus: "pending",
           qrSessionId: `QR-${spotName.replace("-", "")}`,
           extendedMinutes: 0,
@@ -48,14 +50,25 @@ export const useSessionStore = create<SessionState>()(
         set({ activeSession: session, recommendation: null });
         return session;
       },
+      beginBillingAtSpot: () => {
+        const s = get().activeSession;
+        if (!s || s.billingStartTime) return;
+        set({
+          activeSession: {
+            ...s,
+            billingStartTime: new Date().toISOString(),
+          },
+        });
+      },
       endSession: () => {
         const session = get().activeSession;
         if (!session) return null;
+        const billingFrom = session.billingStartTime ?? session.startTime;
         const ended: ParkingSession = {
           ...session,
           endTime: new Date().toISOString(),
           totalPrice: calculatePrice(
-            session.startTime,
+            billingFrom,
             new Date().toISOString(),
             session.extendedMinutes ?? 0
           ).total,
@@ -77,7 +90,13 @@ export const useSessionStore = create<SessionState>()(
         const s = get().activeSession;
         if (!s) return;
         set({
-          activeSession: { ...s, spotId, spotName, floor },
+          activeSession: {
+            ...s,
+            spotId,
+            spotName,
+            floor,
+            billingStartTime: undefined,
+          },
         });
       },
       setLastPayment: (data) => set({ lastPayment: data }),

@@ -92,7 +92,8 @@
     "sensorsUnavailable": "በዚህ መሣሪያ ላይ ሴንሰሮች የሉም — ከታች ያሉትን ቁልፎች ይጠቀሙ።",
     "stepForward": "ወደፊት",
     "stepBack": "ወደኋላ",
-    "resetPosition": "ወደ መግቢያ መልስ"
+    "resetPosition": "ወደ መግቢያ መልስ",
+    "billingStarted": "ደርሰዋል — የፓርኪንግ ሰዓት ተጀመረ"
   },
   "session": {
     "title": "ንቁ ፓርኪንግ",
@@ -107,7 +108,8 @@
     "endParking": "ፓርኪንግ አቁም",
     "navigate": "ዳስ",
     "noSession": "ንቁ ክፍለ ጊዜ የለም። ለመጀመር መግቢያ QR ይስካኑ።",
-    "extended": "ክፍለ ጊዜ በ30 ደቂቃ ተራዝሟል"
+    "extended": "ክፍለ ጊዜ በ30 ደቂቃ ተራዝሟል",
+    "timerWaiting": "ሰዓቱ ቦታ ሲደርሱ ይጀምራል። በካርታ ዳስ ይጠቀሙ።"
   },
   "payment": {
     "title": "የፓርኪንግ ማጠቃለያ",
