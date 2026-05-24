@@ -1,40 +1,158 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Smart Parking Demo App
 
-## Getting Started
+An offline-first smart parking demonstration built with **Next.js 16**, **TypeScript**, and **Tailwind CSS v4**. The app simulates QR-based entry/exit, spot recommendations, interactive parking maps, live timers, and Ethiopian payment methods — all powered by mock data with no backend required.
 
-First, run the development server:
+## Features
+
+- **Dashboard** — Stats cards, availability chart, floor breakdown, active sessions, revenue chart
+- **QR entry/exit** — Camera scanner + simulate buttons for desktop demo
+- **Spot recommendation** — Nearest free spot with alternatives based on floor preference and exit proximity
+- **Interactive map** — React Flow floor map with zoom, spot selection, and route line to entrance
+- **Active session** — Live timer, running cost estimate, extend/change/end actions
+- **Payments** — Telebirr, CBE Birr, Chapa, Cash, Visa/Mastercard (simulated)
+- **i18n** — English and Amharic (`next-intl`)
+- **Theming** — Light/dark/system (`next-themes`)
+- **PWA / offline** — Serwist service worker, IndexedDB caches, payment queue sync
+
+## Prerequisites
+
+- **Node.js** 20+
+- **pnpm** 9+ (recommended)
+
+## Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### Production build
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```bash
+pnpm build
+pnpm start
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+## Demo walkthrough
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Home** (`/`) — Start parking or open dashboard
+2. **Scan entry** (`/scan-entry`) — Click **Simulate Entry Scan** (or scan QR with token `entry-demo`)
+3. **Recommendation** — Accept recommended spot or pick an alternative / map
+4. **Active session** (`/session`) — Watch timer and estimated cost; navigate via map
+5. **Scan exit** (`/scan-exit`) — **Simulate Exit Scan** (`exit-demo`)
+6. **Payment** (`/payment`) — Review breakdown, select method, pay
+7. **Receipt** (`/receipt`) — Printable confirmation
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Script | Description |
+|--------|-------------|
+| `pnpm dev` | Development server |
+| `pnpm build` | Production build |
+| `pnpm start` | Run production server |
+| `pnpm lint` | ESLint check |
+| `pnpm lint:fix` | ESLint with auto-fix |
+| `pnpm prepare` | Install Husky git hooks |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+## Architecture
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+├── app/              # Next.js App Router pages
+├── components/       # Shared UI + layout + providers
+├── features/         # Domain UI (dashboard, parking, payment, qr)
+├── hooks/            # useParkingTimer, useOnlineStatus
+├── i18n/             # next-intl request config
+├── lib/              # Utils, constants, mock data, IndexedDB
+├── services/         # Business logic (pricing, QR, recommendations)
+├── store/            # Zustand stores (persisted)
+├── translations/     # en.json, am.json
+└── types/            # TypeScript interfaces
+```
 
-## Deploy on Vercel
+### Data flow
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+UI (features) → Zustand stores → services → mock data / IndexedDB
+                     ↓
+              localStorage persist (sessions, spots)
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+### Offline behavior
+
+| Feature | Offline support |
+|---------|-----------------|
+| Dashboard | Cached spot stats (Zustand persist) |
+| Map | Cached layout (IndexedDB) |
+| Active session / timer | Fully local |
+| QR validation | Cached tokens (IndexedDB) |
+| Payments | Queued in IndexedDB; synced on `online` |
+
+### PWA install
+
+1. Run production build (`pnpm build && pnpm start`) or deploy to HTTPS
+2. In Chrome/Edge: **Install app** from the address bar menu
+3. Test offline: DevTools → Network → **Offline**, reload — cached routes and active session still work
+
+## i18n
+
+Add strings to `src/translations/en.json` and `src/translations/am.json`. Use `useTranslations("namespace")` in client components. Toggle language via the header button (sets `locale` cookie).
+
+## Tech stack
+
+| Layer | Technology |
+|-------|------------|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| State | Zustand + persist |
+| i18n | next-intl |
+| Theme | next-themes |
+| Charts | Recharts |
+| Map | @xyflow/react |
+| QR | html5-qrcode |
+| PWA | @serwist/next |
+| Offline DB | idb (IndexedDB) |
+| Git hooks | Husky + lint-staged |
+
+## Configuration
+
+| Constant | Default | File |
+|----------|---------|------|
+| Hourly rate | 50 ETB | `src/lib/constants.ts` |
+| VAT | 15% | `src/lib/constants.ts` |
+| Total spots | 100 (3 floors) | `src/lib/constants.ts` |
+| Entry QR token | `entry-demo` | `src/lib/constants.ts` |
+| Exit QR token | `exit-demo` | `src/lib/constants.ts` |
+
+## Git hooks
+
+Husky runs `lint-staged` on pre-commit, which ESLint-fixes staged `*.ts` and `*.tsx` files.
+
+## Accessibility
+
+- Semantic landmarks (`header`, `main`, `nav`)
+- `aria-label` / `aria-current` on navigation and controls
+- Map spots expose status via `aria-label` and `aria-pressed`
+- Color + text labels for spot status (not color-only)
+- `lang` attribute follows selected locale
+
+## Performance
+
+- `dynamic()` imports for Recharts, React Flow, and QR scanner
+- Route-level code splitting via App Router
+- `next/font` with `display: swap` for Geist + Noto Sans Ethiopic
+
+## Future improvements
+
+- Real backend and IoT sensors
+- License plate recognition
+- Push notifications and reservations
+- Multi-branch admin analytics
+- Real payment gateway integration
+
+## License
+
+Private demo project.
