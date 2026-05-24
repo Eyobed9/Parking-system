@@ -54,7 +54,7 @@ export function ActiveReservationCard({ reservation, onCancel }: Props) {
 
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="warning">{t("holdDuration", { minutes: reservation.holdMinutes })}</Badge>
-          <Badge variant="outline">
+          <Badge variant="secondary">
             {t("expiresIn")} {formatReservationCountdown(timeLeft)}
           </Badge>
         </div>

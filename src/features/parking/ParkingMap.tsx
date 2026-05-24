@@ -15,14 +15,17 @@ import {
 import "@xyflow/react/dist/style.css";
 import { ParkingSpotNode, type SpotNodeData } from "./ParkingSpotNode";
 import { GateMarkerNode } from "./GateMarkerNode";
+import { StairsMarkerNode } from "./StairsMarkerNode";
 import { UserLocationNode } from "./UserLocationNode";
 import type { ParkingSpot } from "@/types";
-import { ENTRANCE_POSITION, EXIT_POSITION } from "@/lib/constants";
+import { ENTRANCE_FLOOR, ENTRANCE_POSITION, EXIT_POSITION, STAIRS_POSITION } from "@/lib/constants";
+import { needsMultiFloor, stairsTargetFloor } from "@/lib/navigation/multiFloorRoute";
 import { useNavigationStore } from "@/store/useNavigationStore";
 
 const nodeTypes = {
   parkingSpot: ParkingSpotNode,
   gateMarker: GateMarkerNode,
+  stairsMarker: StairsMarkerNode,
   userLocation: UserLocationNode,
 };
 
@@ -56,8 +59,13 @@ export function ParkingMap({
   const heading = useNavigationStore((s) => s.heading);
   const isOffRoute = useNavigationStore((s) => s.isOffRoute);
   const routeAnchor = useNavigationStore((s) => s.routeAnchor);
-  const navFloor = useNavigationStore((s) => s.floor);
+  const userFloor = useNavigationStore((s) => s.userFloor);
+  const targetFloor = useNavigationStore((s) => s.targetFloor);
   const targetSpotId = useNavigationStore((s) => s.targetSpotId);
+  const targetPosition = useNavigationStore((s) => s.targetPosition);
+  const phase = useNavigationStore((s) => s.phase);
+  const isTracking = useNavigationStore((s) => s.isTracking);
+  const atStairs = useNavigationStore((s) => s.atStairs);
 
   const floorSpots = useMemo(
     () => spots.filter((s) => s.floor === floor),
@@ -65,6 +73,8 @@ export function ParkingMap({
   );
 
   const routeTargetId = targetSpotId ?? selectedSpotId;
+  const multiFloor = isTracking && needsMultiFloor(targetFloor);
+  const nextStairsFloor = stairsTargetFloor(userFloor, targetFloor);
 
   const nodes: Node[] = useMemo(() => {
     const spotNodes: Node<SpotNodeData>[] = floorSpots.map((s) => ({
@@ -106,8 +116,28 @@ export function ParkingMap({
         ]
       : [];
 
+    const infraNodes: Node[] = [];
+    if (multiFloor || (showRoute && floor === targetFloor && targetFloor > 1)) {
+      const stairsActive =
+        floor === userFloor &&
+        (atStairs || phase === "change_floor") &&
+        userFloor < targetFloor;
+      infraNodes.push({
+        id: "stairs",
+        type: "stairsMarker",
+        position: { x: STAIRS_POSITION.x - 40, y: STAIRS_POSITION.y - 28 },
+        data: {
+          active: stairsActive,
+          nextFloor: floor === userFloor ? nextStairsFloor : floor < targetFloor ? floor + 1 : null,
+        },
+        draggable: false,
+        selectable: false,
+        zIndex: 6,
+      });
+    }
+
     const navNodes: Node[] = [];
-    if (isVisible && floor === navFloor) {
+    if (isVisible && floor === userFloor) {
       navNodes.push({
         id: "user-location",
         type: "userLocation",
@@ -136,43 +166,103 @@ export function ParkingMap({
           zIndex: 10,
         });
       }
+    } else if (isVisible && isTracking && floor !== userFloor) {
+      navNodes.push({
+        id: "user-ghost",
+        type: "userLocation",
+        position: { x: STAIRS_POSITION.x - 4, y: STAIRS_POSITION.y - 4 },
+        data: { heading: 0, offRoute: false, ghost: true },
+        draggable: false,
+        selectable: false,
+        zIndex: 15,
+        style: { opacity: 0.35 },
+      });
     }
 
-    return [...spotNodes, ...gateNodes, ...navNodes];
+    return [...spotNodes, ...gateNodes, ...infraNodes, ...navNodes];
   }, [
     floorSpots,
     selectedSpotId,
     routeTargetId,
     showGates,
-    isVisible,
+    multiFloor,
+    showRoute,
     floor,
-    navFloor,
+    targetFloor,
+    userFloor,
+    atStairs,
+    phase,
+    nextStairsFloor,
+    isVisible,
     position,
     heading,
     isOffRoute,
     routeAnchor,
+    isTracking,
   ]);
 
   const edges: Edge[] = useMemo(() => {
     const result: Edge[] = [];
 
-    if (showRoute && routeTargetId) {
-      const spot = floorSpots.find((s) => s.id === routeTargetId);
-      if (spot) {
+    if (!showRoute || !routeTargetId || !targetPosition) return result;
+
+    const spot = floorSpots.find((s) => s.id === routeTargetId);
+    const isTargetFloorView = floor === targetFloor;
+    const isUserFloorView = floor === userFloor;
+
+    if (multiFloor) {
+      if (isUserFloorView && userFloor < targetFloor && userFloor === ENTRANCE_FLOOR) {
         result.push({
-          id: "route",
+          id: "route-to-stairs",
           source: "entrance",
-          target: routeTargetId,
+          target: "stairs",
           type: "smoothstep",
-          animated: true,
+          animated: phase === "to_stairs",
           style: { stroke: "#3b82f6", strokeWidth: 3 },
           markerEnd: { type: MarkerType.ArrowClosed, color: "#3b82f6" },
           zIndex: 2,
         });
       }
+
+      if (isTargetFloorView && userFloor < targetFloor) {
+        result.push({
+          id: "route-preview",
+          source: "stairs",
+          target: routeTargetId,
+          type: "smoothstep",
+          animated: false,
+          style: { stroke: "#94a3b8", strokeWidth: 2, strokeDasharray: "8 6" },
+          markerEnd: { type: MarkerType.ArrowClosed, color: "#94a3b8" },
+          zIndex: 1,
+        });
+      }
+
+      if (isUserFloorView && userFloor === targetFloor && spot) {
+        result.push({
+          id: "route-to-spot",
+          source: "stairs",
+          target: routeTargetId,
+          type: "smoothstep",
+          animated: phase === "to_spot",
+          style: { stroke: "#3b82f6", strokeWidth: 3 },
+          markerEnd: { type: MarkerType.ArrowClosed, color: "#3b82f6" },
+          zIndex: 2,
+        });
+      }
+    } else if (spot && isUserFloorView) {
+      result.push({
+        id: "route",
+        source: "entrance",
+        target: routeTargetId,
+        type: "smoothstep",
+        animated: true,
+        style: { stroke: "#3b82f6", strokeWidth: 3 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: "#3b82f6" },
+        zIndex: 2,
+      });
     }
 
-    if (isVisible && isOffRoute && routeAnchor && floor === navFloor) {
+    if (isVisible && isOffRoute && routeAnchor && isUserFloorView) {
       result.push({
         id: "off-route",
         source: "user-location",
@@ -184,13 +274,34 @@ export function ParkingMap({
     }
 
     return result;
-  }, [showRoute, routeTargetId, floorSpots, isVisible, isOffRoute, routeAnchor, floor, navFloor]);
+  }, [
+    showRoute,
+    routeTargetId,
+    targetPosition,
+    floorSpots,
+    floor,
+    targetFloor,
+    userFloor,
+    multiFloor,
+    phase,
+    isVisible,
+    isOffRoute,
+    routeAnchor,
+  ]);
 
-  const flowKey = `${floor}-${routeTargetId ?? "none"}-${showRoute}-${position.x}-${position.y}-${isOffRoute}`;
+  const flowKey = `${floor}-${routeTargetId ?? "none"}-${userFloor}-${phase}-${position.x}-${position.y}`;
 
   const onNodeClick = useCallback(
     (_: React.MouseEvent, node: Node) => {
-      if (node.id === "entrance" || node.id === "exit" || node.id === "user-location") return;
+      if (
+        node.id === "entrance" ||
+        node.id === "exit" ||
+        node.id === "stairs" ||
+        node.id === "user-location" ||
+        node.id === "user-ghost"
+      ) {
+        return;
+      }
       const spot = floorSpots.find((s) => s.id === node.id);
       if (spot?.status === "free") onSelectSpot(node.id);
     },
@@ -200,6 +311,7 @@ export function ParkingMap({
   const miniMapColor = (n: Node) => {
     if (n.id === "entrance") return "#3b82f6";
     if (n.id === "exit") return "#f97316";
+    if (n.id === "stairs") return "#8b5cf6";
     if (n.id === "user-location") return "#0ea5e9";
     return "#10b981";
   };

@@ -35,7 +35,6 @@ export default function ReservePage() {
   const createReservation = useReservationStore((s) => s.createReservation);
   const cancelReservation = useReservationStore((s) => s.cancelReservation);
   const expireIfNeeded = useReservationStore((s) => s.expireIfNeeded);
-  const releaseSpot = useParkingStore((s) => s.releaseSpot);
 
   const [floor, setFloor] = useState(currentFloor);
   const [holdMinutes, setHoldMinutes] = useState<number>(RESERVATION_HOLD_OPTIONS[1].minutes);

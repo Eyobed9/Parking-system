@@ -88,7 +88,7 @@ export default function ScanEntryPage() {
     occupySpot(spotId);
     clearReservation();
     startSession(spotId, spot!.name, spot!.floor);
-    startNavigation(spot!.id, spot!.x, spot!.y, spot!.floor);
+    startNavigation(spot!.id, spot!.name, spot!.x, spot!.y, spot!.floor);
     toast.success(`${spot!.name}`);
     router.push("/map?navigate=1");
   };

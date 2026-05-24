@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 export interface UserLocationData {
   heading: number;
   offRoute?: boolean;
+  ghost?: boolean;
   [key: string]: unknown;
 }
 
@@ -18,12 +19,14 @@ export const UserLocationNode = memo(function UserLocationNode({
       className="relative flex h-0 w-0 items-center justify-center"
       aria-label="Your location"
     >
-      <span
-        className={cn(
-          "absolute h-10 w-10 animate-ping rounded-full opacity-40",
-          data.offRoute ? "bg-amber-400" : "bg-sky-400"
-        )}
-      />
+      {!data.ghost ? (
+        <span
+          className={cn(
+            "absolute h-10 w-10 animate-ping rounded-full opacity-40",
+            data.offRoute ? "bg-amber-400" : "bg-sky-400"
+          )}
+        />
+      ) : null}
       <div
         className={cn(
           "relative flex h-9 w-9 items-center justify-center rounded-full border-2 border-white shadow-md",

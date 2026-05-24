@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { ArrowDown, ArrowUp, LocateFixed, Radio } from "lucide-react";
+import { ArrowDown, ArrowUp, Layers, LocateFixed, Radio } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -9,21 +9,37 @@ import {
   useStepCompassNavigation,
 } from "@/hooks/useStepCompassNavigation";
 import { motionSupported, orientationSupported } from "@/lib/navigation/compass";
+import { needsMultiFloor, stairsTargetFloor } from "@/lib/navigation/multiFloorRoute";
 import { useNavigationStore } from "@/store/useNavigationStore";
 
-export function NavigationPanel() {
+interface NavigationPanelProps {
+  viewFloor: number;
+  onViewFloorChange: (floor: number) => void;
+}
+
+export function NavigationPanel({ viewFloor, onViewFloorChange }: NavigationPanelProps) {
   const t = useTranslations("map");
   const isTracking = useNavigationStore((s) => s.isTracking);
   const isOffRoute = useNavigationStore((s) => s.isOffRoute);
   const hasArrived = useNavigationStore((s) => s.hasArrived);
   const pathProgress = useNavigationStore((s) => s.pathProgress);
+  const userFloor = useNavigationStore((s) => s.userFloor);
+  const targetFloor = useNavigationStore((s) => s.targetFloor);
+  const phase = useNavigationStore((s) => s.phase);
+  const atStairs = useNavigationStore((s) => s.atStairs);
   const applyStep = useNavigationStore((s) => s.applyStep);
   const stepBackward = useNavigationStore((s) => s.stepBackward);
   const resetToEntrance = useNavigationStore((s) => s.resetToEntrance);
+  const advanceFloor = useNavigationStore((s) => s.advanceFloor);
 
   useStepCompassNavigation();
 
   const sensorsAvailable = motionSupported() || orientationSupported();
+  const multiFloor = needsMultiFloor(targetFloor);
+  const nextFloor = stairsTargetFloor(userFloor, targetFloor);
+  const showFloorChange =
+    multiFloor && (phase === "change_floor" || atStairs) && nextFloor != null;
+  const onWrongFloor = viewFloor !== userFloor;
 
   const handleEnableSensors = async () => {
     await enableNavigationSensors();
@@ -41,10 +57,37 @@ export function NavigationPanel() {
         ) : (
           <Badge variant="info">{t("onRoute")}</Badge>
         )}
-        <Badge variant="outline">
+        <Badge variant="secondary">
           {t("routeProgress", { percent: Math.round(pathProgress * 100) })}
         </Badge>
+        <Badge variant="secondary">
+          {t("yourFloor", { floor: userFloor })}
+        </Badge>
+        {multiFloor ? (
+          <Badge variant="secondary">
+            {t("targetFloor", { floor: targetFloor })}
+          </Badge>
+        ) : null}
       </div>
+
+      {onWrongFloor ? (
+        <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-amber-50 p-3 text-sm dark:bg-amber-950/40">
+          <span>{t("viewingOtherFloor", { floor: userFloor })}</span>
+          <Button type="button" size="sm" variant="outline" onClick={() => onViewFloorChange(userFloor)}>
+            {t("goToYourFloor")}
+          </Button>
+        </div>
+      ) : null}
+
+      {showFloorChange && nextFloor != null ? (
+        <Button type="button" className="w-full" onClick={() => {
+          advanceFloor();
+          onViewFloorChange(nextFloor);
+        }}>
+          <Layers className="h-4 w-4" aria-hidden />
+          {t("takeStairsToFloor", { floor: nextFloor })}
+        </Button>
+      ) : null}
 
       <p className="text-sm text-muted-foreground">{t("navigationHint")}</p>
 

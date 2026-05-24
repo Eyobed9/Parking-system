@@ -28,12 +28,16 @@ export const PAYMENT_METHODS = [
   "card",
 ] as const;
 
+export const ENTRANCE_FLOOR = 1;
 export const ENTRANCE_POSITION = { x: 50, y: 400 };
 export const EXIT_POSITION = { x: 750, y: 400 };
+/** Stairs / elevator — same map position on every floor */
+export const STAIRS_POSITION = { x: 400, y: 120 };
 
 export const MAP_BOUNDS = { minX: 20, maxX: 820, minY: 20, maxY: 480 };
 export const NAV_STEP_LENGTH = 12;
 export const NAV_OFF_ROUTE_THRESHOLD = 45;
 export const NAV_ARRIVAL_THRESHOLD = 40;
+export const NAV_STAIRS_THRESHOLD = 35;
 /** Compass degrees offset so map +x (east) aligns with walking direction into the lot */
 export const NAV_COMPASS_OFFSET = 90;
