@@ -26,7 +26,7 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-background/95 backdrop-blur-md md:hidden"
+      className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-card md:hidden"
       aria-label="Main navigation"
     >
       <ul className="flex items-stretch justify-around px-1 py-1">

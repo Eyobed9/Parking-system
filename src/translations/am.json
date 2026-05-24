@@ -20,7 +20,6 @@
     "reserved": "የተደረሱ",
     "pricePerHour": "ዋጋ/ሰዓት",
     "activeSessions": "ንቁ ክፍለ ጊዜዎች",
-    "todayRevenue": "የዛሬ ገቢ",
     "peakHours": "ጠብታ ሰዓታት",
     "peakHoursValue": "8:00 ጠዋት – 10:00 ጠዋት",
     "availability": "የፓርኪንግ ተገኝነት",
@@ -29,7 +28,6 @@
     "floor": "ወለል",
     "spot": "ቦታ",
     "started": "የተጀመረ",
-    "revenue": "የገቢ አጠቃላይ እይታ",
     "spotsView": "የፓርኪንግ ቦታዎች"
   },
   "entry": {

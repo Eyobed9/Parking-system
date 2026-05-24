@@ -4,7 +4,7 @@
   "description": "Offline-first smart parking demonstration",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f0e9df",
+  "background_color": "#e8edf5",
   "theme_color": "#10b981",
   "orientation": "portrait-primary",
   "icons": [

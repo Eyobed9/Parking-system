@@ -4,7 +4,7 @@ An offline-first smart parking demonstration built with **Next.js 16**, **TypeSc
 
 ## Features
 
-- **Dashboard** — Stats cards, availability chart, floor breakdown, active sessions, revenue chart
+- **Dashboard** — Stats cards, availability chart, floor breakdown, active sessions
 - **QR entry/exit** — Camera scanner + simulate buttons for desktop demo
 - **Spot recommendation** — Nearest free spot with alternatives based on floor preference and exit proximity
 - **Interactive map** — React Flow floor map with zoom, spot selection, and route line to entrance

@@ -15,7 +15,6 @@ import {
   CircleParking,
   CircleDot,
   Clock,
-  DollarSign,
   Users,
 } from "lucide-react";
 
@@ -30,7 +29,6 @@ const ParkingAvailabilityChart = dynamic(
 export default function DashboardPage() {
   const t = useTranslations("dashboard");
   const spots = useParkingStore((s) => s.spots);
-  const todayRevenue = useParkingStore((s) => s.todayRevenue);
   const mockSessions = useSessionStore((s) => s.mockSessions);
   const activeSession = useSessionStore((s) => s.activeSession);
 
@@ -38,7 +36,7 @@ export default function DashboardPage() {
     ? [activeSession, ...mockSessions.filter((s) => s.id !== activeSession.id)]
     : mockSessions;
 
-  const stats = getDashboardStats(spots, sessions.length, todayRevenue);
+  const stats = getDashboardStats(spots, sessions.length);
   const floors = getFloorStats(spots);
 
   return (
@@ -58,12 +56,6 @@ export default function DashboardPage() {
           icon={Clock}
         />
         <StatsCard title={t("activeSessions")} value={stats.activeSessions} icon={Car} accent="blue" />
-        <StatsCard
-          title={t("todayRevenue")}
-          value={formatETB(stats.todayRevenue)}
-          icon={DollarSign}
-          className="sm:col-span-2 lg:col-span-1"
-        />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">

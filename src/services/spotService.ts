@@ -3,8 +3,7 @@ import { HOURLY_RATE_ETB } from "@/lib/constants";
 
 export function getDashboardStats(
   spots: ParkingSpot[],
-  activeSessions: number,
-  todayRevenue: number
+  activeSessions: number
 ): DashboardStats {
   return {
     totalSpots: spots.length,
@@ -13,7 +12,6 @@ export function getDashboardStats(
     reserved: spots.filter((s) => s.status === "reserved").length,
     pricePerHour: HOURLY_RATE_ETB,
     activeSessions,
-    todayRevenue,
   };
 }
 

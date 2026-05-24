@@ -53,7 +53,6 @@ export interface DashboardStats {
   reserved: number;
   pricePerHour: number;
   activeSessions: number;
-  todayRevenue: number;
 }
 
 export interface FloorStats {
@@ -80,9 +79,4 @@ export interface PriceBreakdown {
   vat: number;
   serviceFee: number;
   total: number;
-}
-
-export interface RevenueDataPoint {
-  date: string;
-  revenue: number;
 }

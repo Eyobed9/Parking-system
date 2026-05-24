@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { ParkingSpot, RevenueDataPoint } from "@/types";
+import type { ParkingSpot } from "@/types";
 import { createInitialData } from "@/lib/mock-data";
 import { updateSpotStatus } from "@/services/spotService";
 
@@ -8,8 +8,6 @@ interface ParkingState {
   spots: ParkingSpot[];
   selectedSpotId: string | null;
   currentFloor: number;
-  todayRevenue: number;
-  revenueData: RevenueDataPoint[];
   initialized: boolean;
   init: () => void;
   setSelectedSpot: (id: string | null) => void;
@@ -25,13 +23,11 @@ export const useParkingStore = create<ParkingState>()(
       spots: [],
       selectedSpotId: null,
       currentFloor: 1,
-      todayRevenue: 0,
-      revenueData: [],
       initialized: false,
       init: () => {
         if (get().initialized && get().spots.length > 0) return;
-        const { spots, revenue, todayRevenue } = createInitialData();
-        set({ spots, revenueData: revenue, todayRevenue, initialized: true });
+        const { spots } = createInitialData();
+        set({ spots, initialized: true });
       },
       setSelectedSpot: (id) => set({ selectedSpotId: id }),
       setCurrentFloor: (floor) => set({ currentFloor: floor }),
@@ -45,6 +41,6 @@ export const useParkingStore = create<ParkingState>()(
         })),
       getSpot: (id) => get().spots.find((s) => s.id === id),
     }),
-    { name: "parking-spots", partialize: (s) => ({ spots: s.spots, todayRevenue: s.todayRevenue, revenueData: s.revenueData, initialized: s.initialized }) }
+    { name: "parking-spots", partialize: (s) => ({ spots: s.spots, initialized: s.initialized }) }
   )
 );

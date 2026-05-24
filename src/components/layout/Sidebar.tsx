@@ -11,7 +11,6 @@ import {
   Timer,
   LogOut,
   Home,
-  BarChart3,
   Grid3x3,
 } from "lucide-react";
 
@@ -25,9 +24,8 @@ const mainLinks = [
 ];
 
 const dashLinks = [
-  { href: "/dashboard/sessions", icon: Timer, label: "sessions" },
-  { href: "/dashboard/spots", icon: Grid3x3, label: "spots" },
-  { href: "/dashboard/revenue", icon: BarChart3, label: "revenue" },
+  { href: "/dashboard/sessions", icon: Timer, labelKey: "activeSessionsTable" as const },
+  { href: "/dashboard/spots", icon: Grid3x3, labelKey: "spotsView" as const },
 ];
 
 export function Sidebar() {
@@ -61,7 +59,7 @@ export function Sidebar() {
           );
         })}
         <div className="my-2 border-t border-border" />
-        {dashLinks.map(({ href, icon: Icon, label }) => (
+        {dashLinks.map(({ href, icon: Icon, labelKey }) => (
           <Link
             key={href}
             href={href}
@@ -73,7 +71,7 @@ export function Sidebar() {
             )}
           >
             <Icon className="h-4 w-4" aria-hidden />
-            {td(label === "sessions" ? "activeSessionsTable" : label === "spots" ? "spotsView" : "revenue")}
+            {td(labelKey)}
           </Link>
         ))}
       </nav>
