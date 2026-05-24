@@ -1,0 +1,125 @@
+{
+  "app": {
+    "title": "Smart Parking",
+    "subtitle": "Offline-first parking demo"
+  },
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "scanEntry": "Scan Entry",
+    "scanExit": "Scan Exit",
+    "map": "Map",
+    "session": "Session",
+    "payment": "Payment"
+  },
+  "dashboard": {
+    "title": "Smart Parking Dashboard",
+    "totalSpots": "Total Spots",
+    "occupied": "Occupied",
+    "freeSpots": "Free Spots",
+    "reserved": "Reserved",
+    "pricePerHour": "Price/Hour",
+    "activeSessions": "Active Sessions",
+    "todayRevenue": "Today's Revenue",
+    "peakHours": "Peak Hours",
+    "peakHoursValue": "8:00 AM – 10:00 AM",
+    "availability": "Parking Availability",
+    "floorStats": "Floor Statistics",
+    "activeSessionsTable": "Active Sessions",
+    "floor": "Floor",
+    "spot": "Spot",
+    "started": "Started",
+    "revenue": "Revenue Overview",
+    "spotsView": "Parking Spots"
+  },
+  "entry": {
+    "title": "Scan Entrance QR",
+    "scanQR": "Scan QR",
+    "simulateScan": "Simulate Entry Scan",
+    "recommended": "Recommended Spot",
+    "alternatives": "Alternative Spots",
+    "useRecommended": "Use Recommended",
+    "chooseOnMap": "Choose on Map",
+    "invalidQR": "Invalid QR code. Try the demo token.",
+    "noSpots": "No free spots available.",
+    "reasonPreferred": "On your preferred floor",
+    "reasonNearest": "Nearest available spot",
+    "reasonExit": "Close to exit"
+  },
+  "exit": {
+    "title": "Scan Exit QR",
+    "simulateScan": "Simulate Exit Scan",
+    "noSession": "No active parking session.",
+    "goToEntry": "Start Parking"
+  },
+  "map": {
+    "title": "Parking Map",
+    "floor": "Floor",
+    "legendFree": "Free",
+    "legendOccupied": "Occupied",
+    "legendReserved": "Reserved",
+    "legendSelected": "Selected",
+    "navigate": "Navigate to Spot",
+    "entrance": "Entrance",
+    "yourLocation": "You are here"
+  },
+  "session": {
+    "title": "Active Parking",
+    "spot": "Spot",
+    "started": "Started",
+    "duration": "Parking Time",
+    "currentCost": "Current Cost",
+    "floor": "Floor",
+    "sessionId": "QR Session ID",
+    "extend": "Extend Session",
+    "changeSpot": "Change Spot",
+    "endParking": "End Parking",
+    "navigate": "Navigate",
+    "noSession": "No active session. Scan entry QR to start.",
+    "extended": "Session extended by 30 minutes"
+  },
+  "payment": {
+    "title": "Parking Summary",
+    "duration": "Duration",
+    "pricePerHour": "Price/Hour",
+    "subtotal": "Subtotal",
+    "vat": "VAT (15%)",
+    "serviceFee": "Service Fee",
+    "total": "Total",
+    "selectMethod": "Select Payment Method",
+    "pay": "Pay Now",
+    "queued": "Payment queued — will sync when online",
+    "success": "Payment successful!",
+    "telebirr": "Telebirr",
+    "cbe_birr": "CBE Birr",
+    "chapa": "Chapa",
+    "cash": "Cash",
+    "card": "Visa/Mastercard",
+    "peakSurcharge": "Peak surcharge applied"
+  },
+  "receipt": {
+    "title": "Receipt",
+    "thankYou": "Thank you for parking with us!",
+    "print": "Print Receipt",
+    "backHome": "Back to Dashboard",
+    "paidWith": "Paid with",
+    "transactionId": "Transaction ID"
+  },
+  "common": {
+    "offline": "You are offline. Some features use cached data.",
+    "loading": "Loading...",
+    "etb": "ETB",
+    "language": "Language",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "home": {
+    "welcome": "Welcome to Smart Parking",
+    "startParking": "Start Parking",
+    "viewDashboard": "View Dashboard",
+    "activeSession": "You have an active session",
+    "continueSession": "Continue Session"
+  }
+}

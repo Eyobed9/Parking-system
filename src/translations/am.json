@@ -1,0 +1,125 @@
+{
+  "app": {
+    "title": "ስማርት ፓርኪንግ",
+    "subtitle": "ኦፍላይን የፓርኪንግ ማሳያ"
+  },
+  "nav": {
+    "home": "መነሻ",
+    "dashboard": "ዳሽቦርድ",
+    "scanEntry": "መግቢያ ስካን",
+    "scanExit": "መውጫ ስካን",
+    "map": "ካርታ",
+    "session": "ክፍለ ጊዜ",
+    "payment": "ክፍያ"
+  },
+  "dashboard": {
+    "title": "ስማርት ፓርኪንግ ዳሽቦርድ",
+    "totalSpots": "ጠቅላላ ቦታዎች",
+    "occupied": "የተያዙ ቦታዎች",
+    "freeSpots": "ነፃ ቦታዎች",
+    "reserved": "የተደረሱ",
+    "pricePerHour": "ዋጋ/ሰዓት",
+    "activeSessions": "ንቁ ክፍለ ጊዜዎች",
+    "todayRevenue": "የዛሬ ገቢ",
+    "peakHours": "ጠብታ ሰዓታት",
+    "peakHoursValue": "8:00 ጠዋት – 10:00 ጠዋት",
+    "availability": "የፓርኪንግ ተገኝነት",
+    "floorStats": "የወለል ስታቲስቲክስ",
+    "activeSessionsTable": "ንቁ ክፍለ ጊዜዎች",
+    "floor": "ወለል",
+    "spot": "ቦታ",
+    "started": "የተጀመረ",
+    "revenue": "የገቢ አጠቃላይ እይታ",
+    "spotsView": "የፓርኪንግ ቦታዎች"
+  },
+  "entry": {
+    "title": "የመግቢያ QR ስካን",
+    "scanQR": "QR ስካን",
+    "simulateScan": "መግቢያ ስካን አስመስል",
+    "recommended": "የሚመከር ቦታ",
+    "alternatives": "አማራጭ ቦታዎች",
+    "useRecommended": "የሚመከረውን ተጠቀም",
+    "chooseOnMap": "በካርታ ምረጥ",
+    "invalidQR": "ልክ ያልሆነ QR ኮድ። የማሳያ ቶከን ይሞክሩ።",
+    "noSpots": "ነፃ ቦታ የለም።",
+    "reasonPreferred": "በተመረጠው ወለል ላይ",
+    "reasonNearest": "በጣም ቅርብ ነፃ ቦታ",
+    "reasonExit": "ከመውጫ ጋር ቅርብ"
+  },
+  "exit": {
+    "title": "የመውጫ QR ስካን",
+    "simulateScan": "መውጫ ስካን አስመስል",
+    "noSession": "ንቁ የፓርኪንግ ክፍለ ጊዜ የለም።",
+    "goToEntry": "ፓርኪንግ ጀምር"
+  },
+  "map": {
+    "title": "የፓርኪንግ ካርታ",
+    "floor": "ወለል",
+    "legendFree": "ነፃ",
+    "legendOccupied": "የተያዘ",
+    "legendReserved": "የተደረሰ",
+    "legendSelected": "የተመረጠ",
+    "navigate": "ወደ ቦታ ዳስ",
+    "entrance": "መግቢያ",
+    "yourLocation": "እዚህ ነዎት"
+  },
+  "session": {
+    "title": "ንቁ ፓርኪንግ",
+    "spot": "ቦታ",
+    "started": "የተጀመረ",
+    "duration": "የፓርኪንግ ጊዜ",
+    "currentCost": "የአሁን ዋጋ",
+    "floor": "ወለል",
+    "sessionId": "QR ክፍለ ጊዜ መታወቂያ",
+    "extend": "ክፍለ ጊዜ ማራዘም",
+    "changeSpot": "ቦታ ለውጥ",
+    "endParking": "ፓርኪንግ አቁም",
+    "navigate": "ዳስ",
+    "noSession": "ንቁ ክፍለ ጊዜ የለም። ለመጀመር መግቢያ QR ይስካኑ።",
+    "extended": "ክፍለ ጊዜ በ30 ደቂቃ ተራዝሟል"
+  },
+  "payment": {
+    "title": "የፓርኪንግ ማጠቃለያ",
+    "duration": "ጊዜ",
+    "pricePerHour": "ዋጋ/ሰዓት",
+    "subtotal": "ንዑስ ድምር",
+    "vat": "ቫት (15%)",
+    "serviceFee": "የአገልግሎት ክፍያ",
+    "total": "ጠቅላላ",
+    "selectMethod": "የክፍያ ዘዴ ይምረጡ",
+    "pay": "አሁን ይክፈሉ",
+    "queued": "ክፍያ በረድፍ ላይ — ኦንላይን ሲሆኑ ይመሳሰላል",
+    "success": "ክፍያ ተሳክቷል!",
+    "telebirr": "ቴሌብር",
+    "cbe_birr": "ሲቢኢ ብር",
+    "chapa": "ቻፓ",
+    "cash": "ጥሬ ገንዘብ",
+    "card": "ቪዛ/ማስተርካርድ",
+    "peakSurcharge": "የጠብታ ሰዓት ተጨማሪ ክፍያ ተተገብሯል"
+  },
+  "receipt": {
+    "title": "ደረሰኝ",
+    "thankYou": "ከእኛ ጋር ስለቆሙ እናመሰግናለን!",
+    "print": "ደረሰኝ አትም",
+    "backHome": "ወደ ዳሽቦርድ ተመለስ",
+    "paidWith": "በ... ተከፍሏል",
+    "transactionId": "የግብይት መታወቂያ"
+  },
+  "common": {
+    "offline": "ኦፍላይን ነዎት። አንዳንድ ባህሪያት የተቀመጡ ውሂብ ይጠቀማሉ።",
+    "loading": "በመጫን ላይ...",
+    "etb": "ብር",
+    "language": "ቋንቋ",
+    "theme": "ገጽታ",
+    "light": "ብርሃን",
+    "dark": "ጨለማ",
+    "system": "ስርዓት"
+  },
+  "home": {
+    "welcome": "ወደ ስማርት ፓርኪንግ እንኳን በደህና መጡ",
+    "startParking": "ፓርኪንግ ጀምር",
+    "viewDashboard": "ዳሽቦርድ ይመልከቱ",
+    "activeSession": "ንቁ ክፍለ ጊዜ አለዎት",
+    "continueSession": "ክፍለ ጊዜ ቀጥል"
+  }
+}
