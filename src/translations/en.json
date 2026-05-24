@@ -10,6 +10,7 @@
     "scanExit": "Scan Exit",
     "map": "Map",
     "session": "Session",
+    "reserve": "Reserve",
     "payment": "Payment"
   },
   "dashboard": {
@@ -45,7 +46,12 @@
     "noSpots": "No free spots available.",
     "reasonPreferred": "On your preferred floor",
     "reasonNearest": "Nearest available spot",
-    "reasonExit": "Close to exit"
+    "reasonExit": "Close to exit",
+    "scanVerified": "Entrance verified!",
+    "choosingSpot": "Finding your best spot…",
+    "chooseTitle": "Choose your spot",
+    "yourReservedSpot": "Your reserved spot",
+    "reasonReservation": "Your reservation"
   },
   "exit": {
     "title": "Scan Exit QR",
@@ -56,14 +62,29 @@
   },
   "map": {
     "title": "Parking Map",
+    "navigateTitle": "Live Navigation",
     "floor": "Floor",
     "legendFree": "Free",
     "legendOccupied": "Occupied",
     "legendReserved": "Reserved",
     "legendSelected": "Selected",
+    "legendEntrance": "Entry",
+    "legendExit": "Exit",
+    "legendYou": "You",
     "navigate": "Navigate to Spot",
     "entrance": "Entrance",
-    "yourLocation": "You are here"
+    "exit": "Exit",
+    "yourLocation": "You are here",
+    "onRoute": "On route",
+    "offRoute": "Off route",
+    "arrived": "Arrived at spot",
+    "routeProgress": "{percent}% along route",
+    "navigationHint": "Walk with your phone — steps and compass move the blue dot. Use buttons if sensors are unavailable.",
+    "enableSensors": "Enable motion & compass",
+    "sensorsUnavailable": "Sensors unavailable on this device — use step buttons below.",
+    "stepForward": "Forward",
+    "stepBack": "Back",
+    "resetPosition": "Reset to entry"
   },
   "session": {
     "title": "Active Parking",
@@ -120,8 +141,36 @@
   "home": {
     "welcome": "Welcome to Smart Parking",
     "startParking": "Start Parking",
+    "reserveParking": "Reserve a Spot",
     "viewDashboard": "View Dashboard",
     "activeSession": "You have an active session",
     "continueSession": "Continue Session"
+  },
+  "reserve": {
+    "title": "Reserve Parking",
+    "subtitle": "Hold a spot for a set time. Scan the entrance QR when you arrive to start your session.",
+    "holdTime": "Hold duration",
+    "holdTimeHint": "Your spot stays reserved until this time runs out. You still need to scan entry QR on arrival.",
+    "pickSpot": "Pick a spot",
+    "selectSpot": "Select a free spot on the map",
+    "confirm": "Reserve {spot}",
+    "confirmed": "{spot} reserved",
+    "cancelled": "Reservation cancelled",
+    "cancel": "Cancel reservation",
+    "activeTitle": "Active reservation",
+    "holdDuration": "{minutes} min hold",
+    "expiresIn": "Expires in",
+    "scanToStart": "When you arrive, scan the entrance QR to start parking. The timer begins after you scan.",
+    "scanEntry": "Scan entry QR",
+    "sessionActive": "You already have an active parking session.",
+    "goToSession": "Go to session",
+    "spotUnavailable": "That spot is no longer available.",
+    "alreadyReserved": "You already have an active reservation.",
+    "duration": {
+      "30min": "30 min",
+      "1hr": "1 hour",
+      "2hr": "2 hours",
+      "4hr": "4 hours"
+    }
   }
 }

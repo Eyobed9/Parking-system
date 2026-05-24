@@ -63,6 +63,17 @@ export interface FloorStats {
   reserved: number;
 }
 
+export interface ParkingReservation {
+  id: string;
+  userId: string;
+  spotId: string;
+  spotName: string;
+  floor: number;
+  holdMinutes: number;
+  createdAt: string;
+  expiresAt: string;
+}
+
 export interface RecommendationResult {
   recommended: ParkingSpot;
   alternatives: ParkingSpot[];

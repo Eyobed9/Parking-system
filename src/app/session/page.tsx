@@ -49,7 +49,7 @@ export default function SessionPage() {
       />
 
       <div className="flex flex-col gap-2">
-        <Link href={`/map?floor=${activeSession.floor}`}>
+        <Link href={`/map?navigate=1&floor=${activeSession.floor}`}>
           <Button variant="outline" size="lg" className="w-full">
             <MapPin className="h-5 w-5" aria-hidden />
             {t("navigate")}

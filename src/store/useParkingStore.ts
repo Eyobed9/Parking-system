@@ -14,6 +14,8 @@ interface ParkingState {
   setCurrentFloor: (floor: number) => void;
   occupySpot: (spotId: string) => void;
   freeSpot: (spotId: string) => void;
+  reserveSpot: (spotId: string) => void;
+  releaseSpot: (spotId: string) => void;
   getSpot: (id: string) => ParkingSpot | undefined;
 }
 
@@ -36,6 +38,14 @@ export const useParkingStore = create<ParkingState>()(
           spots: updateSpotStatus(s.spots, spotId, "occupied"),
         })),
       freeSpot: (spotId) =>
+        set((s) => ({
+          spots: updateSpotStatus(s.spots, spotId, "free"),
+        })),
+      reserveSpot: (spotId) =>
+        set((s) => ({
+          spots: updateSpotStatus(s.spots, spotId, "reserved"),
+        })),
+      releaseSpot: (spotId) =>
         set((s) => ({
           spots: updateSpotStatus(s.spots, spotId, "free"),
         })),

@@ -45,6 +45,29 @@ body {
 .spot-reserved { background-color: #eab308; }
 .spot-selected { background-color: #3b82f6; }
 
+.dark .react-flow,
+.react-flow.dark {
+  --xy-controls-button-background-color-default: var(--card);
+  --xy-controls-button-background-color-hover-default: var(--muted);
+  --xy-controls-button-color-default: var(--foreground);
+  --xy-controls-button-color-hover-default: var(--foreground);
+  --xy-controls-button-border-color-default: var(--border);
+  --xy-controls-box-shadow-default: 0 0 2px 1px rgba(0, 0, 0, 0.35);
+  --xy-minimap-background-color-default: var(--card);
+  --xy-minimap-mask-color: rgba(10, 15, 26, 0.65);
+  --xy-background-pattern-dots-color-default: var(--border);
+  --xy-background-pattern-line-color-default: var(--border);
+  --xy-background-pattern-cross-color-default: var(--border);
+  --xy-node-background-color-default: var(--card);
+  --xy-node-color-default: var(--foreground);
+  --xy-node-border-default: 1px solid var(--border);
+}
+
+.dark .react-flow .react-flow__controls-button svg,
+.react-flow.dark .react-flow__controls-button svg {
+  fill: currentColor;
+}
+
 @media print {
   nav, header, .no-print { display: none !important; }
 }

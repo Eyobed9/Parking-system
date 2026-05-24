@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
+import { useSessionStore } from "@/store/useSessionStore";
 import {
   LayoutDashboard,
   QrCode,
@@ -12,17 +13,27 @@ import {
   LogOut,
 } from "lucide-react";
 
-const links = [
+const staticLinks = [
   { href: "/dashboard", icon: LayoutDashboard, key: "dashboard" as const },
-  { href: "/scan-entry", icon: QrCode, key: "scanEntry" as const },
-  { href: "/map", icon: Map, key: "map" as const },
   { href: "/session", icon: Timer, key: "session" as const },
-  { href: "/scan-exit", icon: LogOut, key: "scanExit" as const },
-];
+  { href: "/map", icon: Map, key: "map" as const },
+] as const;
 
 export function BottomNav() {
   const pathname = usePathname();
   const t = useTranslations("nav");
+  const activeSession = useSessionStore((s) => s.activeSession);
+
+  const scanLink = activeSession
+    ? ({ href: "/scan-exit", icon: LogOut, key: "scanExit" } as const)
+    : ({ href: "/scan-entry", icon: QrCode, key: "scanEntry" } as const);
+
+  const links = [
+    staticLinks[0],
+    staticLinks[1],
+    staticLinks[2],
+    scanLink,
+  ];
 
   return (
     <nav

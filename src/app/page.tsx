@@ -6,10 +6,11 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useSessionStore } from "@/store/useSessionStore";
-import { Car, LayoutDashboard, QrCode } from "lucide-react";
+import { Car, CalendarClock, LayoutDashboard, LogOut, QrCode } from "lucide-react";
 
 export default function HomePage() {
   const t = useTranslations("home");
+  const tNav = useTranslations("nav");
   const activeSession = useSessionStore((s) => s.activeSession);
 
   return (
@@ -35,12 +36,29 @@ export default function HomePage() {
       )}
 
       <div className="flex flex-col gap-3">
-        <Link href="/scan-entry" className="w-full">
-          <Button size="lg" className="w-full">
-            <QrCode className="h-5 w-5" aria-hidden />
-            {t("startParking")}
-          </Button>
-        </Link>
+        {activeSession ? (
+          <Link href="/scan-exit" className="w-full">
+            <Button size="lg" className="w-full">
+              <LogOut className="h-5 w-5" aria-hidden />
+              {tNav("scanExit")}
+            </Button>
+          </Link>
+        ) : (
+          <>
+            <Link href="/scan-entry" className="w-full">
+              <Button size="lg" className="w-full">
+                <QrCode className="h-5 w-5" aria-hidden />
+                {t("startParking")}
+              </Button>
+            </Link>
+            <Link href="/reserve" className="w-full">
+              <Button size="lg" variant="secondary" className="w-full">
+                <CalendarClock className="h-5 w-5" aria-hidden />
+                {t("reserveParking")}
+              </Button>
+            </Link>
+          </>
+        )}
         <Link href="/dashboard" className="w-full">
           <Button size="lg" variant="outline" className="w-full">
             <LayoutDashboard className="h-5 w-5" aria-hidden />

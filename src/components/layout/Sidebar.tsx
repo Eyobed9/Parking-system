@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
+import { useSessionStore } from "@/store/useSessionStore";
 import {
   LayoutDashboard,
   QrCode,
@@ -12,16 +13,15 @@ import {
   LogOut,
   Home,
   Grid3x3,
+  CalendarClock,
 } from "lucide-react";
 
-const mainLinks = [
+const staticMainLinks = [
   { href: "/", icon: Home, key: "home" as const },
   { href: "/dashboard", icon: LayoutDashboard, key: "dashboard" as const },
-  { href: "/scan-entry", icon: QrCode, key: "scanEntry" as const },
-  { href: "/map", icon: Map, key: "map" as const },
   { href: "/session", icon: Timer, key: "session" as const },
-  { href: "/scan-exit", icon: LogOut, key: "scanExit" as const },
-];
+  { href: "/map", icon: Map, key: "map" as const },
+] as const;
 
 const dashLinks = [
   { href: "/dashboard/sessions", icon: Timer, labelKey: "activeSessionsTable" as const },
@@ -32,6 +32,28 @@ export function Sidebar() {
   const pathname = usePathname();
   const t = useTranslations("nav");
   const td = useTranslations("dashboard");
+  const activeSession = useSessionStore((s) => s.activeSession);
+
+  const scanLink = activeSession
+    ? ({ href: "/scan-exit", icon: LogOut, key: "scanExit" } as const)
+    : ({ href: "/scan-entry", icon: QrCode, key: "scanEntry" } as const);
+
+  const mainLinks = activeSession
+    ? [
+        staticMainLinks[0],
+        staticMainLinks[1],
+        staticMainLinks[2],
+        staticMainLinks[3],
+        scanLink,
+      ]
+    : [
+        staticMainLinks[0],
+        staticMainLinks[1],
+        { href: "/reserve", icon: CalendarClock, key: "reserve" as const },
+        staticMainLinks[2],
+        staticMainLinks[3],
+        scanLink,
+      ];
 
   return (
     <aside

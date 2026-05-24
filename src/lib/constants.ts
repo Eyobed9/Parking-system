@@ -8,6 +8,13 @@ export const SPOTS_PER_FLOOR = 34;
 export const TOTAL_SPOTS = 100;
 export const EXTEND_MINUTES = 30;
 
+export const RESERVATION_HOLD_OPTIONS = [
+  { minutes: 30, labelKey: "30min" },
+  { minutes: 60, labelKey: "1hr" },
+  { minutes: 120, labelKey: "2hr" },
+  { minutes: 240, labelKey: "4hr" },
+] as const;
+
 export const QR_TOKENS = {
   ENTRY: "entry-demo",
   EXIT: "exit-demo",
@@ -23,3 +30,10 @@ export const PAYMENT_METHODS = [
 
 export const ENTRANCE_POSITION = { x: 50, y: 400 };
 export const EXIT_POSITION = { x: 750, y: 400 };
+
+export const MAP_BOUNDS = { minX: 20, maxX: 820, minY: 20, maxY: 480 };
+export const NAV_STEP_LENGTH = 12;
+export const NAV_OFF_ROUTE_THRESHOLD = 45;
+export const NAV_ARRIVAL_THRESHOLD = 40;
+/** Compass degrees offset so map +x (east) aligns with walking direction into the lot */
+export const NAV_COMPASS_OFFSET = 90;

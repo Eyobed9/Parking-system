@@ -10,6 +10,7 @@ import { QR_TOKENS } from "@/lib/constants";
 import { validateQRToken } from "@/services/qrService";
 import { useSessionStore } from "@/store/useSessionStore";
 import { useParkingStore } from "@/store/useParkingStore";
+import { useNavigationStore } from "@/store/useNavigationStore";
 import { Button } from "@/components/ui/button";
 
 const QRScanner = dynamic(
@@ -23,6 +24,7 @@ export default function ScanExitPage() {
   const activeSession = useSessionStore((s) => s.activeSession);
   const endSession = useSessionStore((s) => s.endSession);
   const freeSpot = useParkingStore((s) => s.freeSpot);
+  const stopNavigation = useNavigationStore((s) => s.stopNavigation);
 
   const handleScan = useCallback(
     async (text: string): Promise<boolean> => {
@@ -37,13 +39,14 @@ export default function ScanExitPage() {
       }
       const ended = endSession();
       if (ended) {
+        stopNavigation();
         freeSpot(ended.spotId);
         sessionStorage.setItem("endedSession", JSON.stringify(ended));
         router.push(`/payment?sessionId=${ended.id}`);
       }
       return true;
     },
-    [activeSession, endSession, freeSpot, router, t]
+    [activeSession, endSession, freeSpot, stopNavigation, router, t]
   );
 
   if (!activeSession) {

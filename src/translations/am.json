@@ -10,6 +10,7 @@
     "scanExit": "መውጫ ስካን",
     "map": "ካርታ",
     "session": "ክፍለ ጊዜ",
+    "reserve": "ቦታ ማስያዝ",
     "payment": "ክፍያ"
   },
   "dashboard": {
@@ -45,7 +46,12 @@
     "noSpots": "ነፃ ቦታ የለም።",
     "reasonPreferred": "በተመረጠው ወለል ላይ",
     "reasonNearest": "በጣም ቅርብ ነፃ ቦታ",
-    "reasonExit": "ከመውጫ ጋር ቅርብ"
+    "reasonExit": "ከመውጫ ጋር ቅርብ",
+    "scanVerified": "መግቢያ ተረጋግጧል!",
+    "choosingSpot": "ምርጥ ቦታ በመፈለግ ላይ…",
+    "chooseTitle": "ቦታዎን ይምረጡ",
+    "yourReservedSpot": "የተደረደሩት ቦታ",
+    "reasonReservation": "የእርስዎ ቦታ ማስያዣ"
   },
   "exit": {
     "title": "የመውጫ QR ስካን",
@@ -56,14 +62,29 @@
   },
   "map": {
     "title": "የፓርኪንግ ካርታ",
+    "navigateTitle": "ቀጥታ ዳሰሳ",
     "floor": "ወለል",
     "legendFree": "ነፃ",
     "legendOccupied": "የተያዘ",
     "legendReserved": "የተደረሰ",
     "legendSelected": "የተመረጠ",
+    "legendEntrance": "መግቢያ",
+    "legendExit": "መውጫ",
+    "legendYou": "እርስዎ",
     "navigate": "ወደ ቦታ ዳስ",
     "entrance": "መግቢያ",
-    "yourLocation": "እዚህ ነዎት"
+    "exit": "መውጫ",
+    "yourLocation": "እዚህ ነዎት",
+    "onRoute": "በመንገድ ላይ",
+    "offRoute": "ከመንገድ ውጭ",
+    "arrived": "ቦታ ላይ ደርሰዋል",
+    "routeProgress": "{percent}% በመንገድ ላይ",
+    "navigationHint": "ስልክዎን ይዘው ይራመዱ — እርምጃዎች እና ኮምፓስ ሰማያዊ ነጥቡን ያንቀሳቅሳሉ።",
+    "enableSensors": "እንቅስቃሴ እና ኮምፓስ አንቃ",
+    "sensorsUnavailable": "በዚህ መሣሪያ ላይ ሴንሰሮች የሉም — ከታች ያሉትን ቁልፎች ይጠቀሙ።",
+    "stepForward": "ወደፊት",
+    "stepBack": "ወደኋላ",
+    "resetPosition": "ወደ መግቢያ መልስ"
   },
   "session": {
     "title": "ንቁ ፓርኪንግ",
@@ -120,8 +141,36 @@
   "home": {
     "welcome": "ወደ ስማርት ፓርኪንግ እንኳን በደህና መጡ",
     "startParking": "ፓርኪንግ ጀምር",
+    "reserveParking": "ቦታ ያስያዙ",
     "viewDashboard": "ዳሽቦርድ ይመልከቱ",
     "activeSession": "ንቁ ክፍለ ጊዜ አለዎት",
     "continueSession": "ክፍለ ጊዜ ቀጥል"
+  },
+  "reserve": {
+    "title": "ፓርኪንግ ቦታ ማስያዝ",
+    "subtitle": "ቦታ ለተወሰነ ጊዜ ያስያዙ። ሲደርሱ ክፍለ ጊዜ ለመጀመር የመግቢያ QR ይስካኑ።",
+    "holdTime": "የማስያዣ ጊዜ",
+    "holdTimeHint": "ቦታዎ እስከ ጊዜው ድረስ የተደረደር ይሆናል። ሲደርሱ ቢሆንም የመግቢያ QR መስካን ያስፈልጋል።",
+    "pickSpot": "ቦታ ይምረጡ",
+    "selectSpot": "በካርታ ላይ ነፃ ቦታ ይምረጡ",
+    "confirm": "{spot} ያስያዙ",
+    "confirmed": "{spot} ተደርዷል",
+    "cancelled": "ማስያዣ ተሰርዟል",
+    "cancel": "ማስያዣ ሰርዝ",
+    "activeTitle": "ንቁ ማስያዣ",
+    "holdDuration": "{minutes} ደቂቃ ማስያዣ",
+    "expiresIn": "ይጠፋበታል",
+    "scanToStart": "ሲደርሱ ክፍለ ጊዜ ለመጀመር የመግቢያ QR ይስካኑ። ሰዓቱ ከስካን በኋላ ይጀምራል።",
+    "scanEntry": "መግቢያ QR ስካን",
+    "sessionActive": "አስቀድሞ ንቁ የፓርኪንግ ክፍለ ጊዜ አለዎት።",
+    "goToSession": "ወደ ክፍለ ጊዜ",
+    "spotUnavailable": "የዚያ ቦታ አሁን አይገኝም።",
+    "alreadyReserved": "አስቀድሞ ንቁ ማስያዣ አለዎት።",
+    "duration": {
+      "30min": "30 ደቂቃ",
+      "1hr": "1 ሰዓት",
+      "2hr": "2 ሰዓት",
+      "4hr": "4 ሰዓት"
+    }
   }
 }
