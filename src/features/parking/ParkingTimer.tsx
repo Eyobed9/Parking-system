@@ -7,7 +7,6 @@ import { formatETB } from "@/lib/utils";
 interface Props {
   /** Billing / parking duration anchor — set when user reaches the spot */
   billingStartTime?: string;
-  extendedMinutes?: number;
   waitingForArrival?: boolean;
   labels: {
     duration: string;
@@ -25,14 +24,13 @@ interface Props {
 
 export function ParkingTimer({
   billingStartTime,
-  extendedMinutes = 0,
   waitingForArrival = false,
   labels,
   spotName,
   floor,
   qrSessionId,
 }: Props) {
-  const { formatted, estimate } = useParkingTimer(billingStartTime, extendedMinutes);
+  const { formatted, estimate } = useParkingTimer(billingStartTime);
 
   return (
     <Card>

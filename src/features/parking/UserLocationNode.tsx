@@ -31,20 +31,10 @@ export function UserLocationNode({
       aria-label="Your location"
     >
       {!isGhost ? (
-        <span
-          className={cn(
-            "absolute inset-0 rounded-full opacity-40 animate-ping",
-            data.offRoute ? "bg-amber-400" : "bg-sky-400"
-          )}
-        />
+        <span className="absolute inset-0 rounded-full bg-sky-400 opacity-40 animate-ping" />
       ) : null}
 
-      <div
-        className={cn(
-          "relative flex h-10 w-10 items-center justify-center rounded-full border-2 border-white shadow-lg",
-          data.offRoute ? "bg-amber-500" : "bg-sky-500"
-        )}
-      >
+      <div className="relative flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-sky-500 shadow-lg">
         <Navigation2
           className="h-6 w-6 shrink-0 fill-white text-white drop-shadow-md"
           style={{

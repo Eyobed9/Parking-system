@@ -8,15 +8,11 @@ import { RotateCcw } from "lucide-react";
 
 interface QRScannerProps {
   onScan: (decoded: string) => boolean | Promise<boolean>;
-  simulateLabel: string;
-  simulateToken: string;
   invalidMessage?: string;
 }
 
 export function QRScanner({
   onScan,
-  simulateLabel,
-  simulateToken,
   invalidMessage,
 }: QRScannerProps) {
   const t = useTranslations("entry");
@@ -118,14 +114,6 @@ export function QRScanner({
     };
   }, [scanSession, readerId, stopScanner, invalidMessage, t]);
 
-  const handleSimulate = async () => {
-    await stopScanner();
-    setIsScanning(false);
-    lastDecodedRef.current = null;
-    const accepted = await onScanRef.current(simulateToken);
-    if (!accepted) setError(invalidMessage ?? t("invalidQR"));
-  };
-
   return (
     <div className="space-y-4">
       <div
@@ -155,17 +143,6 @@ export function QRScanner({
           {t("scanAgain")}
         </Button>
       ) : null}
-
-      <Button
-        type="button"
-        variant="secondary"
-        size="lg"
-        className="w-full"
-        onClick={handleSimulate}
-        disabled={isScanning}
-      >
-        {simulateLabel}
-      </Button>
     </div>
   );
 }

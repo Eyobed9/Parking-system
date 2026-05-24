@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { ParkingSession, RecommendationResult } from "@/types";
 import { generateId } from "@/lib/utils";
-import { EXTEND_MINUTES } from "@/lib/constants";
 import { calculatePrice } from "@/services/pricingService";
 import { createInitialData } from "@/lib/mock-data";
 
@@ -16,7 +15,6 @@ interface SessionState {
   startSession: (spotId: string, spotName: string, floor: number) => ParkingSession;
   beginBillingAtSpot: () => void;
   endSession: () => ParkingSession | null;
-  extendSession: () => void;
   changeSpot: (spotId: string, spotName: string, floor: number) => void;
   setLastPayment: (data: SessionState["lastPayment"]) => void;
 }
@@ -45,7 +43,6 @@ export const useSessionStore = create<SessionState>()(
           billingStartTime: undefined,
           paymentStatus: "pending",
           qrSessionId: `QR-${spotName.replace("-", "")}`,
-          extendedMinutes: 0,
         };
         set({ activeSession: session, recommendation: null });
         return session;
@@ -69,22 +66,11 @@ export const useSessionStore = create<SessionState>()(
           endTime: new Date().toISOString(),
           totalPrice: calculatePrice(
             billingFrom,
-            new Date().toISOString(),
-            session.extendedMinutes ?? 0
+            new Date().toISOString()
           ).total,
         };
         set({ activeSession: null });
         return ended;
-      },
-      extendSession: () => {
-        const s = get().activeSession;
-        if (!s) return;
-        set({
-          activeSession: {
-            ...s,
-            extendedMinutes: (s.extendedMinutes ?? 0) + EXTEND_MINUTES,
-          },
-        });
       },
       changeSpot: (spotId, spotName, floor) => {
         const s = get().activeSession;

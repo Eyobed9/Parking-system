@@ -40,8 +40,7 @@ function PaymentContent() {
 
   const breakdown = calculatePrice(
     session.billingStartTime ?? session.startTime,
-    session.endTime ?? new Date().toISOString(),
-    session.extendedMinutes ?? 0
+    session.endTime ?? new Date().toISOString()
   );
 
   const handlePay = async () => {

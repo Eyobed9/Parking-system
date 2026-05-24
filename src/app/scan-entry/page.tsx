@@ -6,7 +6,6 @@ import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "sonner";
-import { QR_TOKENS } from "@/lib/constants";
 import { validateQRToken } from "@/services/qrService";
 import {
   canClaimSpot,
@@ -113,12 +112,7 @@ export default function ScanEntryPage() {
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.3 }}
           >
-            <QRScanner
-              onScan={handleScan}
-              simulateLabel={t("simulateScan")}
-              simulateToken={QR_TOKENS.ENTRY}
-              invalidMessage={t("invalidQR")}
-            />
+            <QRScanner onScan={handleScan} invalidMessage={t("invalidQR")} />
           </motion.div>
         ) : null}
 

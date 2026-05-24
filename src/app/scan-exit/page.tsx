@@ -6,7 +6,6 @@ import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import Link from "next/link";
-import { QR_TOKENS } from "@/lib/constants";
 import { validateQRToken } from "@/services/qrService";
 import { useSessionStore } from "@/store/useSessionStore";
 import { useParkingStore } from "@/store/useParkingStore";
@@ -67,12 +66,7 @@ export default function ScanExitPage() {
       <p className="text-sm text-muted-foreground">
         {activeSession.spotName} — {activeSession.qrSessionId}
       </p>
-      <QRScanner
-        onScan={handleScan}
-        simulateLabel={t("simulateScan")}
-        simulateToken={QR_TOKENS.EXIT}
-        invalidMessage={t("invalidQR")}
-      />
+      <QRScanner onScan={handleScan} invalidMessage={t("invalidQR")} />
     </div>
   );
 }

@@ -103,12 +103,10 @@
     "currentCost": "የአሁን ዋጋ",
     "floor": "ወለል",
     "sessionId": "QR ክፍለ ጊዜ መታወቂያ",
-    "extend": "ክፍለ ጊዜ ማራዘም",
     "changeSpot": "ቦታ ለውጥ",
     "endParking": "ፓርኪንግ አቁም",
     "navigate": "ዳስ",
     "noSession": "ንቁ ክፍለ ጊዜ የለም። ለመጀመር መግቢያ QR ይስካኑ።",
-    "extended": "ክፍለ ጊዜ በ30 ደቂቃ ተራዝሟል",
     "timerWaiting": "ሰዓቱ ቦታ ሲደርሱ ይጀምራል። በካርታ ዳስ ይጠቀሙ።"
   },
   "payment": {

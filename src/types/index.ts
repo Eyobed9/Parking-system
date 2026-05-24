@@ -28,7 +28,6 @@ export interface ParkingSession {
   /** When set, parking duration and billing are counted from arrival at the spot */
   billingStartTime?: string;
   endTime?: string;
-  extendedMinutes?: number;
   totalPrice?: number;
   paymentStatus: PaymentStatus;
   qrSessionId: string;

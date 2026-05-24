@@ -14,12 +14,11 @@ export function isPeakHour(date = new Date()): boolean {
 
 export function calculatePrice(
   startTime: string,
-  endTime?: string,
-  extendedMinutes = 0
+  endTime?: string
 ): PriceBreakdown {
   const start = new Date(startTime).getTime();
   const end = endTime ? new Date(endTime).getTime() : Date.now();
-  const durationMs = end - start + extendedMinutes * 60000;
+  const durationMs = end - start;
   const hours = Math.max(1, Math.ceil(durationMs / 3600000));
   const peak = isPeakHour(endTime ? new Date(endTime) : new Date());
   const rate = peak ? HOURLY_RATE_ETB * PEAK_MULTIPLIER : HOURLY_RATE_ETB;
@@ -41,9 +40,6 @@ export function calculatePrice(
   };
 }
 
-export function getRunningEstimate(
-  startTime: string,
-  extendedMinutes = 0
-): number {
-  return calculatePrice(startTime, undefined, extendedMinutes).total;
+export function getRunningEstimate(startTime: string): number {
+  return calculatePrice(startTime).total;
 }

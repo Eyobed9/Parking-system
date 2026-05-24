@@ -3,18 +3,16 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
 import { useSessionStore } from "@/store/useSessionStore";
 import { ParkingTimer } from "@/features/parking/ParkingTimer";
 import { Button } from "@/components/ui/button";
-import { MapPin, Timer, LogOut } from "lucide-react";
+import { MapPin, LogOut } from "lucide-react";
 
 export default function SessionPage() {
   const t = useTranslations("session");
   const th = useTranslations("home");
   const router = useRouter();
   const activeSession = useSessionStore((s) => s.activeSession);
-  const extendSession = useSessionStore((s) => s.extendSession);
 
   if (!activeSession) {
     return (
@@ -35,7 +33,6 @@ export default function SessionPage() {
       <ParkingTimer
         billingStartTime={activeSession.billingStartTime}
         waitingForArrival={!activeSession.billingStartTime}
-        extendedMinutes={activeSession.extendedMinutes}
         spotName={activeSession.spotName}
         floor={activeSession.floor}
         qrSessionId={activeSession.qrSessionId}
@@ -57,18 +54,6 @@ export default function SessionPage() {
             {t("navigate")}
           </Button>
         </Link>
-        <Button
-          variant="outline"
-          size="lg"
-          className="w-full"
-          onClick={() => {
-            extendSession();
-            toast.success(t("extended"));
-          }}
-        >
-          <Timer className="h-5 w-5" aria-hidden />
-          {t("extend")}
-        </Button>
         <Link href="/map">
           <Button variant="outline" size="lg" className="w-full">
             {t("changeSpot")}

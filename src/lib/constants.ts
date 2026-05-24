@@ -6,7 +6,6 @@ export const PEAK_HOURS = { start: 8, end: 10 };
 export const FLOOR_COUNT = 3;
 export const SPOTS_PER_FLOOR = 34;
 export const TOTAL_SPOTS = 100;
-export const EXTEND_MINUTES = 30;
 
 export const RESERVATION_HOLD_OPTIONS = [
   { minutes: 30, labelKey: "30min" },
