@@ -116,7 +116,7 @@ export function NavigationPanel({ viewFloor, onViewFloorChange }: NavigationPane
         <p className="text-xs text-muted-foreground">{t("sensorsUnavailable")}</p>
       )}
 
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-2 gap-2">
         <Button type="button" variant="outline" onClick={stepBackward} aria-label={t("stepBack")}>
           <ArrowDown className="h-4 w-4 rotate-180" aria-hidden />
           {t("stepBack")}
@@ -125,9 +125,18 @@ export function NavigationPanel({ viewFloor, onViewFloorChange }: NavigationPane
           <ArrowUp className="h-4 w-4" aria-hidden />
           {t("stepForward")}
         </Button>
-        <Button type="button" variant="outline" onClick={resetToEntrance} aria-label={t("resetPosition")}>
-          <LocateFixed className="h-4 w-4" aria-hidden />
-          {t("resetPosition")}
+        <Button
+          type="button"
+          variant="outline"
+          className="col-span-2 min-h-12 gap-2 px-6 py-3"
+          onClick={() => {
+            resetToEntrance();
+            onViewFloorChange(1);
+          }}
+          aria-label={t("resetPosition")}
+        >
+          <LocateFixed className="h-4 w-4 shrink-0" aria-hidden />
+          <span className="text-center">{t("resetPosition")}</span>
         </Button>
       </div>
     </div>

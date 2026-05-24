@@ -16,7 +16,7 @@ import "@xyflow/react/dist/style.css";
 import { ParkingSpotNode, type SpotNodeData } from "./ParkingSpotNode";
 import { GateMarkerNode } from "./GateMarkerNode";
 import { StairsMarkerNode } from "./StairsMarkerNode";
-import { UserLocationNode } from "./UserLocationNode";
+import { USER_MARKER_OFFSET, UserLocationNode } from "./UserLocationNode";
 import type { ParkingSpot } from "@/types";
 import { ENTRANCE_FLOOR, ENTRANCE_POSITION, EXIT_POSITION, STAIRS_POSITION } from "@/lib/constants";
 import { needsMultiFloor, stairsTargetFloor } from "@/lib/navigation/multiFloorRoute";
@@ -137,22 +137,29 @@ export function ParkingMap({
     }
 
     const navNodes: Node[] = [];
-    if (isVisible && floor === userFloor) {
+    const showUserOnFloor = (isVisible || isTracking) && floor === userFloor;
+    if (showUserOnFloor) {
       navNodes.push({
         id: "user-location",
         type: "userLocation",
-        position: { x: position.x - 4, y: position.y - 4 },
+        position: {
+          x: position.x - USER_MARKER_OFFSET,
+          y: position.y - USER_MARKER_OFFSET,
+        },
         data: { heading, offRoute: isOffRoute },
         draggable: false,
         selectable: false,
-        zIndex: 20,
+        zIndex: 50,
       });
 
       if (isOffRoute && routeAnchor) {
         navNodes.push({
           id: "route-anchor",
           type: "default",
-          position: { x: routeAnchor.x - 4, y: routeAnchor.y - 4 },
+          position: {
+            x: routeAnchor.x - 4,
+            y: routeAnchor.y - 4,
+          },
           data: { label: "" },
           style: {
             width: 8,
@@ -166,16 +173,18 @@ export function ParkingMap({
           zIndex: 10,
         });
       }
-    } else if (isVisible && isTracking && floor !== userFloor) {
+    } else if ((isVisible || isTracking) && floor !== userFloor) {
       navNodes.push({
         id: "user-ghost",
         type: "userLocation",
-        position: { x: STAIRS_POSITION.x - 4, y: STAIRS_POSITION.y - 4 },
-        data: { heading: 0, offRoute: false, ghost: true },
+        position: {
+          x: STAIRS_POSITION.x - USER_MARKER_OFFSET,
+          y: STAIRS_POSITION.y - USER_MARKER_OFFSET,
+        },
+        data: { heading, offRoute: false, ghost: true },
         draggable: false,
         selectable: false,
-        zIndex: 15,
-        style: { opacity: 0.35 },
+        zIndex: 40,
       });
     }
 
@@ -289,8 +298,6 @@ export function ParkingMap({
     routeAnchor,
   ]);
 
-  const flowKey = `${floor}-${routeTargetId ?? "none"}-${userFloor}-${phase}-${position.x}-${position.y}`;
-
   const onNodeClick = useCallback(
     (_: React.MouseEvent, node: Node) => {
       if (
@@ -319,7 +326,6 @@ export function ParkingMap({
   return (
     <div className="h-[420px] w-full rounded-xl border border-border md:h-[520px]">
       <ReactFlow
-        key={flowKey}
         colorMode={colorMode}
         nodes={nodes}
         edges={edges}
@@ -327,8 +333,10 @@ export function ParkingMap({
         nodeTypes={nodeTypes}
         nodesDraggable={false}
         nodesConnectable={false}
-        elementsSelectable
+        elementsSelectable={false}
+        nodesFocusable={false}
         fitView
+        fitViewOptions={{ padding: 0.15, maxZoom: 1.2 }}
         minZoom={0.4}
         maxZoom={2}
         proOptions={{ hideAttribution: true }}

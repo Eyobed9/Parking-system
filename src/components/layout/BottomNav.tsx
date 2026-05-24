@@ -12,22 +12,14 @@ import {
   Map,
   Timer,
   LogOut,
-  CalendarClock,
 } from "lucide-react";
 
-const homeLink = { href: "/", icon: Home, key: "home" as const };
-const dashboardLink = {
-  href: "/dashboard",
-  icon: LayoutDashboard,
-  key: "dashboard" as const,
-};
-const reserveLink = {
-  href: "/reserve",
-  icon: CalendarClock,
-  key: "reserve" as const,
-};
-const sessionLink = { href: "/session", icon: Timer, key: "session" as const };
-const mapLink = { href: "/map", icon: Map, key: "map" as const };
+const staticLinks = [
+  { href: "/", icon: Home, key: "home" as const },
+  { href: "/dashboard", icon: LayoutDashboard, key: "dashboard" as const },
+  { href: "/session", icon: Timer, key: "session" as const },
+  { href: "/map", icon: Map, key: "map" as const },
+] as const;
 
 export function BottomNav() {
   const pathname = usePathname();
@@ -38,9 +30,7 @@ export function BottomNav() {
     ? ({ href: "/scan-exit", icon: LogOut, key: "scanExit" } as const)
     : ({ href: "/scan-entry", icon: QrCode, key: "scanEntry" } as const);
 
-  const links = activeSession
-    ? [homeLink, dashboardLink, sessionLink, mapLink, scanLink]
-    : [homeLink, dashboardLink, reserveLink, sessionLink, mapLink, scanLink];
+  const links = [...staticLinks, scanLink];
 
   return (
     <nav
